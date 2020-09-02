@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Save Artist</title>
+	<title>Update profile</title>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/add-artist-style.css" />
 </head>
@@ -12,29 +12,19 @@
 <body>
 	<div id="wrapper">
 		<div id="header">
-			<h2>Artist</h2>
+			<h2>Update profile</h2>
 		</div>
 	</div>
 	<div id="container">
-		<h3>Save Artist</h3>
-		<form:form action="saveArtist" modelAttribute="artist" method="POST">
+		<form:form action="update" modelAttribute="artist" method="POST">
 			<form:hidden path="id" />
 			<table>
 				<tbody>
-					<tr>
-						<td><label>Username:</label></td>
-						<td><form:input path="username"/></td>
-						<td><form:errors path="username" cssClass="error" /></td>
-					</tr>
+					<tr><td><form:errors path="username" cssClass="error" /></td></tr>
 					<tr>
 						<td><label>Name:</label></td>
 						<td><form:input path="name"/></td>
 						<td><form:errors path="name" cssClass="error" /></td>
-					</tr>
-					<tr>
-						<td><label>Password:</label></td>
-						<td><form:input path="password_hash"/></td>
-						<td><form:errors path="password_hash" cssClass="error" /></td>
 					</tr>
 					<tr>
 						<td><label>Bio:</label></td>
@@ -50,7 +40,7 @@
 					</tr>
 					<tr>
 						<td><label></label></td>
-						<td><input type="submit" value="Save" class="save"/></td>
+						<td><input type="submit" value="Update" class="save"/></td>
 					</tr>
 				</tbody>
 			</table>

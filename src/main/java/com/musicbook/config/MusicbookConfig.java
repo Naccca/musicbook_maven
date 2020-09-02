@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -45,6 +46,11 @@ public class MusicbookConfig implements WebMvcConfigurer {
 	}
 	
 	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/login").setViewName("login");
+	}
+	
+	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
           .addResourceHandler("/resources/**")
@@ -52,7 +58,7 @@ public class MusicbookConfig implements WebMvcConfigurer {
     }
 	
 	@Bean
-	public DataSource myDataSource() {
+	public DataSource securityDataSource() {
 		
 		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 		
@@ -79,7 +85,7 @@ public class MusicbookConfig implements WebMvcConfigurer {
 		
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		
-		sessionFactory.setDataSource(myDataSource());
+		sessionFactory.setDataSource(securityDataSource());
 		sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
 		sessionFactory.setHibernateProperties(getHibernateProperties());
 		
