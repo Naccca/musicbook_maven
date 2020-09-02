@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Save Band</title>
+	<title>Create Band</title>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/add-artist-style.css" />
 </head>
@@ -12,13 +12,12 @@
 <body>
 	<div id="wrapper">
 		<div id="header">
-			<h2>Band</h2>
+			<h2>Create Band</h2>
 		</div>
 	</div>
 	<div id="container">
-		<h3>Save Band</h3>
-		<form:form action="saveBand" modelAttribute="band" method="POST">
-			<form:hidden path="id" />
+		<form:form action="create" modelAttribute="band" method="POST">
+			<form:hidden path="owner_id" />
 			<table>
 				<tbody>
 					<tr>
@@ -40,7 +39,7 @@
 					</tr>
 					<tr>
 						<td><label></label></td>
-						<td><input type="submit" value="Save" class="save"/></td>
+						<td><input type="submit" value="Create" class="save"/></td>
 					</tr>
 				</tbody>
 			</table>

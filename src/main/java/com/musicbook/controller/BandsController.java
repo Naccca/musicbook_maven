@@ -1,11 +1,13 @@
 package com.musicbook.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.musicbook.entity.Artist;
 import com.musicbook.entity.Band;
+import com.musicbook.form.CreateBandForm;
+import com.musicbook.form.DeleteBandForm;
+import com.musicbook.form.UpdateBandForm;
+import com.musicbook.service.ArtistService;
 import com.musicbook.service.BandService;
 
 @Controller
@@ -27,60 +34,97 @@ public class BandsController {
 	@Autowired
 	private BandService bandService;
 	
+	@Autowired
+	private ArtistService artistService;
+	
 	@GetMapping("")
-	public String index( Model theModel) {
+	public String index(Model model) {
 		
-		List<Band> theBands = bandService.getBands();
+		List<Band> bands = bandService.getBands();
 		
-		theModel.addAttribute("bands", theBands);
+		model.addAttribute("bands", bands);
 		
 		return "bands/index";
 	}
 	
 	@GetMapping("/show")
-	public String show(@RequestParam("bandId") int theId, Model theModel) {
+	public String show(@RequestParam("bandId") int id, Model model) {
 		
-		Band theBand = bandService.getBand(theId);
+		Band band = bandService.getBand(id);
 		
-		theModel.addAttribute("band", theBand);
+		model.addAttribute("band", band);
 		
 		return "bands/show";
 	}
 	
 	@GetMapping("/new")
-	public String newForm(Model theModel) {
+	public String newForm(Model model, Principal principal) {
 		
-		Band theBand = new Band();
-		theModel.addAttribute("band", theBand);
-		return "bands/form";
+		CreateBandForm band = new CreateBandForm();
+		Artist owner = artistService.getArtistByUsername(principal.getName());
+		band.setOwner_id(owner.getId());
+		
+		model.addAttribute("band", band);
+		
+		return "bands/new_form";
 	}
 	
-	@PostMapping("/saveBand")
-	public String saveBand(@Valid @ModelAttribute("band") Band theBand, BindingResult theBindingResult) {
+	@PostMapping("/create")
+	public String createBand(@Valid @ModelAttribute("band") CreateBandForm band, BindingResult bindingResult, Principal principal) {
 		
-		if (theBindingResult.hasErrors()) {
-			return "bands/form";
+		Artist owner = artistService.getArtist(band.getOwner_id());
+		if (!owner.getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "bands/new_form";
 		}
 		else {
-			bandService.saveBand(theBand);
+			bandService.createBand(band);
+			return "redirect:/bands";
+		}
+	}
+	
+	@PostMapping("/update")
+	public String updateBand(@Valid @ModelAttribute("band") UpdateBandForm updateBandForm, BindingResult bindingResult, Principal principal) {
+		
+		Band band = bandService.getBand(updateBandForm.getId());
+		if (!band.getOwner().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "bands/edit_form";
+		}
+		else {
+			bandService.updateBand(updateBandForm);
 			return "redirect:/bands";
 		}
 	}
 	
 	@GetMapping("/edit")
-	public String editForm(@RequestParam("bandId") int theId, Model theModel) {
+	public String editForm(@RequestParam("bandId") int id, Model model, Principal principal) {
 		
-		Band theBand = bandService.getBand(theId);
+		Band band = bandService.getBand(id);
+		if (!band.getOwner().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
 		
-		theModel.addAttribute("band", theBand);
+		model.addAttribute("band", band);
 		
-		return "/bands/form";
+		return "/bands/edit_form";
 	}
 	
 	@PostMapping("/delete")
-	public String deleteBand(@ModelAttribute("band") Band theBand) {
+	public String deleteBand(@ModelAttribute("band") DeleteBandForm deleteBandForm, Principal principal) {
 		
-		bandService.deleteBand(theBand.getId());
+		Band band = bandService.getBand(deleteBandForm.getId());
+		if (!band.getOwner().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		bandService.deleteBand(deleteBandForm);
 		
 		return "redirect:/bands";
 	}

@@ -16,6 +16,8 @@ public interface ArtistService {
 	public void updateArtist(UpdateArtistForm artist);
 
 	public Artist getArtist(int id);
+	
+	public Artist getArtistByUsername(String username);
 
 	public void deleteArtist(DeleteArtistForm artist);
 }

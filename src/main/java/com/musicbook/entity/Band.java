@@ -24,8 +24,6 @@ public class Band {
 	@Column(name="id")
 	private int id;
 	
-	@NotNull(message="is required")
-	@Size(min=3, message="minimum 3 characters")
 	@Column(name="name")
 	private String name;
 	

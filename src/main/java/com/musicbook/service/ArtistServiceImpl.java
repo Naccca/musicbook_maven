@@ -70,6 +70,13 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		
 		return artistDAO.getArtist(id);
 	}
+	
+	@Override
+	@Transactional
+	public Artist getArtistByUsername(String username) {
+		
+		return artistDAO.findArtistByUsername(username);
+	}
 
 	@Override
 	@Transactional
