@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.musicbook.dao.ArtistDAO;
 import com.musicbook.dao.BandDAO;
+import com.musicbook.dao.MembershipDAO;
 import com.musicbook.entity.Artist;
 import com.musicbook.entity.Band;
+import com.musicbook.entity.Membership;
 import com.musicbook.form.CreateBandForm;
 import com.musicbook.form.DeleteBandForm;
 import com.musicbook.form.UpdateBandForm;
@@ -23,12 +25,22 @@ public class BandServiceImpl implements BandService {
 	
 	@Autowired
 	private ArtistDAO artistDAO;
+	
+	@Autowired
+	private MembershipDAO membershipDAO;
 
 	@Override
 	@Transactional
 	public List<Band> getBands() {
 		
 		return bandDAO.getBands();
+	}
+	
+	@Override
+	@Transactional
+	public List<Band> getBandsByOwnerId(int id) {
+		
+		return bandDAO.getBandsByOwnerId(id);
 	}
 
 	@Override
@@ -45,7 +57,15 @@ public class BandServiceImpl implements BandService {
 		band.setUpdated_at(timestamp);
 		Artist owner = artistDAO.getArtist(createBandForm.getOwner_id());
 		band.setOwner(owner);
-		bandDAO.saveBand(band);
+		Band createdBand = bandDAO.saveBand(band);
+		
+		Membership membership = new Membership();
+		membership.setArtist(owner);
+		membership.setBand(createdBand);
+		membership.setState_id(Membership.STATE_ACCEPTED);
+		membership.setCreated_at(timestamp);
+		membership.setUpdated_at(timestamp);
+		membershipDAO.saveMembership(membership);
 	}
 	
 	@Override

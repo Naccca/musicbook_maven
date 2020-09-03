@@ -1,5 +1,7 @@
 package com.musicbook.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +15,18 @@ public class MembershipServiceImpl implements MembershipService {
 	@Autowired
 	private MembershipDAO membershipDAO;
 
-	private final int STATE_INVITED = 1;
-	private final int STATE_ACCEPTED = 2;
+	@Override
+	@Transactional
+	public List<Membership> getMembershipsByArtistId(int id) {
+		
+		return membershipDAO.getMembershipsByArtistId(id);
+	}
 	
 	@Override
 	@Transactional
 	public void create(Membership theMembership) {
 		
-		theMembership.setState_id(STATE_INVITED);
+		theMembership.setState_id(Membership.STATE_INVITED);
 		
 		membershipDAO.saveMembership(theMembership);
 	}
@@ -29,7 +35,7 @@ public class MembershipServiceImpl implements MembershipService {
 	@Transactional
 	public void accept(Membership theMembership) {
 		
-		theMembership.setState_id(STATE_ACCEPTED);
+		theMembership.setState_id(Membership.STATE_ACCEPTED);
 		
 		membershipDAO.saveMembership(theMembership);
 	}

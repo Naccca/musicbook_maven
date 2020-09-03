@@ -27,13 +27,27 @@ public class BandDAOImpl implements BandDAO {
 		
 		return bands;
 	}
+	
+	@Override
+	public List<Band> getBandsByOwnerId(int id) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Band> theQuery = currentSession.createQuery("from Band where owner_id=:id", Band.class);
+		
+		theQuery.setParameter("id", id);
+		
+		List<Band> bands = theQuery.getResultList();
+		
+		return bands;
+	}
 
 	@Override
-	public void saveBand(Band theBand) {
+	public Band saveBand(Band theBand) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.merge(theBand);
+		return (Band)currentSession.merge(theBand);
 	}
 
 	@Override

@@ -10,6 +10,8 @@ import com.musicbook.form.UpdateBandForm;
 public interface BandService {
 
 	public List<Band> getBands();
+	
+	public List<Band> getBandsByOwnerId(int id);
 
 	public void createBand(CreateBandForm band);
 	

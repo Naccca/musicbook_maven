@@ -21,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.musicbook.entity.Artist;
+import com.musicbook.entity.Band;
+import com.musicbook.entity.Membership;
 import com.musicbook.form.CreateArtistForm;
 import com.musicbook.form.DeleteArtistForm;
 import com.musicbook.form.UpdateArtistForm;
 import com.musicbook.service.ArtistService;
+import com.musicbook.service.BandService;
+import com.musicbook.service.MembershipService;
 
 @Controller
 @RequestMapping("/artists")
@@ -32,6 +36,12 @@ public class ArtistsController {
 	
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private BandService bandService;
+	
+	@Autowired
+	private MembershipService membershipService;
 	
 	@GetMapping("")
 	public String index(Model model) {
@@ -47,8 +57,12 @@ public class ArtistsController {
 	public String show(@RequestParam("artistId") int id, Model model) {
 		
 		Artist artist = artistService.getArtist(id);
+		List<Band> bands = bandService.getBandsByOwnerId(id);
+		List<Membership> memberships = membershipService.getMembershipsByArtistId(id);
 		
 		model.addAttribute("artist", artist);
+		model.addAttribute("bands", bands);
+		model.addAttribute("memberships", memberships);
 		
 		return "artists/show";
 	}

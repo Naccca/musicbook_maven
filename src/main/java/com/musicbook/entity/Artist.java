@@ -52,7 +52,7 @@ public class Artist {
 	@OneToMany(mappedBy="artist")
 	private List<Membership> memberships;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="owner")
+	@OneToMany(mappedBy="owner")
 	private List<Band> bands;
 	
 	public Artist() {

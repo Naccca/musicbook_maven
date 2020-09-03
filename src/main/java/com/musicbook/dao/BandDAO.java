@@ -7,8 +7,10 @@ import com.musicbook.entity.Band;
 public interface BandDAO {
 
 	public List<Band> getBands();
+	
+	public List<Band> getBandsByOwnerId(int id);
 
-	public void saveBand(Band theBand);
+	public Band saveBand(Band theBand);
 
 	public Band getBand(int theId);
 

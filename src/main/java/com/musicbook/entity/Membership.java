@@ -13,6 +13,9 @@ import javax.persistence.Table;
 @Table(name="memberships")
 public class Membership {
 
+	public static final int STATE_INVITED = 1;
+	public static final int STATE_ACCEPTED = 2;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")

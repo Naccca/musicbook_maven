@@ -27,6 +27,9 @@
 				<a href="${pageContext.request.contextPath}/artists">Back to List</a>
 			</p>
 			
+			<div id="header">
+				<h2>My Bands</h2>
+			</div>
 			<table>
 				<tr>
 					<th>Id</th>
@@ -38,29 +41,60 @@
 					<th>Updated at</th>
 					<th>Action</th>
 				</tr>
-				<c:forEach var="tempBand" items="${artist.getBands()}">
+				<c:forEach var="band" items="${bands}">
 					<c:url var="showLink" value="/bands/show">
-						<c:param name="bandId" value="${tempBand.id}"></c:param>
+						<c:param name="bandId" value="${band.id}"></c:param>
 					</c:url>
 					<c:url var="updateLink" value="/bands/edit">
-						<c:param name="bandId" value="${tempBand.id}"></c:param>
+						<c:param name="bandId" value="${band.id}"></c:param>
 					</c:url>
 					<tr>
-						<td> <a href="${showLink}">${tempBand.getId()}</a> </td>
-						<td> ${tempBand.getName()} </td>
-						<td> ${tempBand.getBio()} </td>
-						<td> ${tempBand.getLocation()} </td>
-						<td> ${tempBand.getGenres()} </td>
-						<td> ${tempBand.getCreated_at()} </td>
-						<td> ${tempBand.getUpdated_at()} </td>
+						<td> <a href="${showLink}">${band.getId()}</a> </td>
+						<td> ${band.getName()} </td>
+						<td> ${band.getBio()} </td>
+						<td> ${band.getLocation()} </td>
+						<td> ${band.getGenres()} </td>
+						<td> ${band.getCreated_at()} </td>
+						<td> ${band.getUpdated_at()} </td>
 						<td>
 							<a href="${updateLink}">Update</a>
 							|
 							<form action="bands" method="POST">
-								<input name="id" value="${tempBand.getId()}" type="hidden" />
+								<input name="id" value="${band.getId()}" type="hidden" />
 								<input type="submit" value="Delete" class="delete" onclick="if(!(confirm('Are you sure you want to delete this band?'))) return false" />
 							</form>
 						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			
+			<div id="header">
+				<h2>Bands I'm part of</h2>
+			</div>
+			<table>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>State ID</th>
+					<th>Bio</th>
+					<th>Location</th>
+					<th>Genres</th>
+					<th>Created at</th>
+					<th>Updated at</th>
+				</tr>
+				<c:forEach var="membership" items="${memberships}">
+					<c:url var="showLink" value="/bands/show">
+						<c:param name="bandId" value="${membership.getBand().id}"></c:param>
+					</c:url>
+					<tr>
+						<td> <a href="${showLink}">${membership.getBand().id}</a> </td>
+						<td> ${membership.getBand().name} </td>
+						<td> ${membership.state_id} </td>
+						<td> ${membership.getBand().bio} </td>
+						<td> ${membership.getBand().location} </td>
+						<td> ${membership.getBand().genres} </td>
+						<td> ${membership.getBand().created_at} </td>
+						<td> ${membership.getBand().updated_at} </td>
 					</tr>
 				</c:forEach>
 			</table>
