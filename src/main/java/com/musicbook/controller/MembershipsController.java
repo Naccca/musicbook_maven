@@ -17,23 +17,23 @@ public class MembershipsController {
 	private MembershipService membershipService;
 	
 	@PostMapping("/create")
-	public String create(@ModelAttribute("membership") Membership theMembership) {
+	public String create(@ModelAttribute("membership") Membership membership) {
 		
-		membershipService.create(theMembership);
+		membershipService.create(membership);
 		return "redirect:/memberships"; // todo
 	}
 	
 	@PostMapping("/accept")
-	public String accept(@ModelAttribute("membership") Membership theMembership) {
+	public String accept(@ModelAttribute("membership") Membership membership) {
 		
-		membershipService.accept(theMembership);
+		membershipService.accept(membership);
 		return "redirect:/memberships"; // todo
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@ModelAttribute("membership") Membership theMembership) {
+	public String delete(@ModelAttribute("membership") Membership membership) {
 		
-		membershipService.delete(theMembership.getId());
+		membershipService.delete(membership.getId());
 		
 		return "redirect:/memberships"; //todo
 	}

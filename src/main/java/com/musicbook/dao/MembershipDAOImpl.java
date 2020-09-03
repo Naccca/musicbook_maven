@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.musicbook.entity.Band;
 import com.musicbook.entity.Membership;
 
 @Repository
@@ -22,34 +21,32 @@ public class MembershipDAOImpl implements MembershipDAO {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Membership> theQuery = currentSession.createQuery("from Membership m join fetch m.band band where artist_id=:id", Membership.class);
+		Query<Membership> query = currentSession.createQuery("from Membership m join fetch m.band band where artist_id=:id", Membership.class);
 		
-		theQuery.setParameter("id", id);
+		query.setParameter("id", id);
 		
-		List<Membership> memberships = theQuery.getResultList();
+		List<Membership> memberships = query.getResultList();
 		
 		return memberships;
 	}
 	
 	@Override
-	public void saveMembership(Membership theMembership) {
+	public void saveMembership(Membership membership) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.merge(theMembership);
+		currentSession.merge(membership);
 	}
 
 	@Override
-	public void deleteMembership(int theId) {
+	public void deleteMembership(int id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query theQuery = currentSession.createQuery("delete from Membership where id=:membershipId");
+		Query query = currentSession.createQuery("delete from Membership where id=:membershipId");
 		
-		theQuery.setParameter("membershipId", theId);
+		query.setParameter("membershipId", id);
 		
-		theQuery.executeUpdate();
-		
+		query.executeUpdate();
 	}
-
 }

@@ -8,11 +8,11 @@ public interface ArtistDAO {
 
 	public List<Artist> getArtists();
 
-	public void saveArtist(Artist theArtist);
+	public void saveArtist(Artist artist);
 
-	public Artist getArtist(int theId);
+	public Artist getArtist(int id);
 
-	public void deleteArtist(int theId);
+	public void deleteArtist(int id);
 	
 	public Artist findArtistByUsername(String username);
 }

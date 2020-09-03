@@ -24,27 +24,26 @@ public class MembershipServiceImpl implements MembershipService {
 	
 	@Override
 	@Transactional
-	public void create(Membership theMembership) {
+	public void create(Membership membership) {
 		
-		theMembership.setState_id(Membership.STATE_INVITED);
+		membership.setState_id(Membership.STATE_INVITED);
 		
-		membershipDAO.saveMembership(theMembership);
+		membershipDAO.saveMembership(membership);
 	}
 	
 	@Override
 	@Transactional
-	public void accept(Membership theMembership) {
+	public void accept(Membership membership) {
 		
-		theMembership.setState_id(Membership.STATE_ACCEPTED);
+		membership.setState_id(Membership.STATE_ACCEPTED);
 		
-		membershipDAO.saveMembership(theMembership);
+		membershipDAO.saveMembership(membership);
 	}
 
 	@Override
 	@Transactional
-	public void delete(int theId) {
+	public void delete(int id) {
 		
-		membershipDAO.deleteMembership(theId);
-		
+		membershipDAO.deleteMembership(id);
 	}
 }

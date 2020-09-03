@@ -8,7 +8,7 @@ public interface MembershipDAO {
 
 	public List<Membership> getMembershipsByArtistId(int id);
 	
-	public void saveMembership(Membership theMembership);
+	public void saveMembership(Membership membership);
 
-	public void deleteMembership(int theId);
+	public void deleteMembership(int id);
 }

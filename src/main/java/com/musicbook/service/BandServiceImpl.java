@@ -84,9 +84,9 @@ public class BandServiceImpl implements BandService {
 
 	@Override
 	@Transactional
-	public Band getBand(int theId) {
+	public Band getBand(int id) {
 		
-		return bandDAO.getBand(theId);
+		return bandDAO.getBand(id);
 	}
 
 	@Override

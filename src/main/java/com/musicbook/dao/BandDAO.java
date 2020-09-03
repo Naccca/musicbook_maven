@@ -10,9 +10,9 @@ public interface BandDAO {
 	
 	public List<Band> getBandsByOwnerId(int id);
 
-	public Band saveBand(Band theBand);
+	public Band saveBand(Band band);
 
-	public Band getBand(int theId);
+	public Band getBand(int id);
 
-	public void deleteBand(int theId);
+	public void deleteBand(int id);
 }

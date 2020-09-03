@@ -21,9 +21,9 @@ public class BandDAOImpl implements BandDAO {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Band> theQuery = currentSession.createQuery("from Band", Band.class);
+		Query<Band> query = currentSession.createQuery("from Band", Band.class);
 		
-		List<Band> bands = theQuery.getResultList();
+		List<Band> bands = query.getResultList();
 		
 		return bands;
 	}
@@ -33,43 +33,43 @@ public class BandDAOImpl implements BandDAO {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Band> theQuery = currentSession.createQuery("from Band where owner_id=:id", Band.class);
+		Query<Band> query = currentSession.createQuery("from Band where owner_id=:id", Band.class);
 		
-		theQuery.setParameter("id", id);
+		query.setParameter("id", id);
 		
-		List<Band> bands = theQuery.getResultList();
+		List<Band> bands = query.getResultList();
 		
 		return bands;
 	}
 
 	@Override
-	public Band saveBand(Band theBand) {
+	public Band saveBand(Band band) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		return (Band)currentSession.merge(theBand);
+		return (Band)currentSession.merge(band);
 	}
 
 	@Override
-	public Band getBand(int theId) {
+	public Band getBand(int id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Band theBand = currentSession.get(Band.class, theId);
+		Band band = currentSession.get(Band.class, id);
 		
-		return theBand;
+		return band;
 	}
 
 	@Override
-	public void deleteBand(int theId) {
+	public void deleteBand(int id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query theQuery = currentSession.createQuery("delete from Band where id=:bandId");
+		Query query = currentSession.createQuery("delete from Band where id=:bandId");
 		
-		theQuery.setParameter("bandId", theId);
+		query.setParameter("bandId", id);
 		
-		theQuery.executeUpdate();
+		query.executeUpdate();
 		
 	}
 

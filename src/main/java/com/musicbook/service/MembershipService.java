@@ -8,9 +8,9 @@ public interface MembershipService {
 
 	public List<Membership> getMembershipsByArtistId(int id);
 	
-	public void create(Membership theMembership);
+	public void create(Membership membership);
 	
-	public void accept(Membership theMembership);
+	public void accept(Membership membership);
 
-	public void delete(int theId);
+	public void delete(int id);
 }

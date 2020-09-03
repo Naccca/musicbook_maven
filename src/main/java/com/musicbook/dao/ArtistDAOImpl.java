@@ -21,42 +21,41 @@ public class ArtistDAOImpl implements ArtistDAO {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Artist> theQuery = currentSession.createQuery("from Artist", Artist.class);
+		Query<Artist> query = currentSession.createQuery("from Artist", Artist.class);
 		
-		List<Artist> artists = theQuery.getResultList();
+		List<Artist> artists = query.getResultList();
 		
 		return artists;
 	}
 
 	@Override
-	public void saveArtist(Artist theArtist) {
+	public void saveArtist(Artist artist) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.merge(theArtist);
+		currentSession.merge(artist);
 	}
 
 	@Override
-	public Artist getArtist(int theId) {
+	public Artist getArtist(int id) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Artist theArtist = currentSession.get(Artist.class, theId);
+		Artist artist = currentSession.get(Artist.class, id);
 		
-		return theArtist;
+		return artist;
 	}
 
 	@Override
-	public void deleteArtist(int theId) {
+	public void deleteArtist(int id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query theQuery = currentSession.createQuery("delete from Artist where id=:artistId");
+		Query query = currentSession.createQuery("delete from Artist where id=:artistId");
 		
-		theQuery.setParameter("artistId", theId);
+		query.setParameter("artistId", id);
 		
-		theQuery.executeUpdate();
-		
+		query.executeUpdate();
 	}
 	
 	@Override
