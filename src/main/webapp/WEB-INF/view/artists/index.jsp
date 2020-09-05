@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored = "false" %>
 
 <!DOCTYPE html>
@@ -18,6 +19,10 @@
 			<input type="button" value="Add Artist" 
 				   onclick="window.location.href='artists/new'; return false;"
 				   class="add-button" />
+			<c:url var="searchUrl"  value="/artists/search" />
+			<form:form action="${searchUrl}" method="GET">
+				<input name="search" placeholder="Search..." />
+			</form:form>
 			<table>
 				<tr>
 					<th>Id</th>
@@ -31,14 +36,14 @@
 					<th>Action</th>
 				</tr>
 				<c:forEach var="tempArtist" items="${artists}">
-					<c:url var="showLink" value="/artists/show">
+					<c:url var="showUrl" value="/artists/show">
 						<c:param name="artistId" value="${tempArtist.id}"></c:param>
 					</c:url>
-					<c:url var="updateLink" value="/artists/edit">
+					<c:url var="updateUrl" value="/artists/edit">
 						<c:param name="artistId" value="${tempArtist.id}"></c:param>
 					</c:url>
 					<tr>
-						<td> <a href="${showLink}">${tempArtist.getId()}</a> </td>
+						<td> <a href="${showUrl}">${tempArtist.getId()}</a> </td>
 						<td> ${tempArtist.getUsername()} </td>
 						<td> ${tempArtist.getName()} </td>
 						<td> ${tempArtist.getBio()} </td>
@@ -47,9 +52,10 @@
 						<td> ${tempArtist.getCreated_at()} </td>
 						<td> ${tempArtist.getUpdated_at()} </td>
 						<td>
-							<a href="${updateLink}">Update</a>
+							<a href="${updateUrl}">Update</a>
 							|
-							<form action="artists/delete" method="POST">
+							<c:url var="deleteUrl"  value="/artists/delete" />
+							<form action="${deleteUrl}" method="POST">
 								<input name="id" value="${tempArtist.getId()}" type="hidden" />
 								<input type="submit" value="Delete" class="delete" onclick="if(!(confirm('Are you sure you want to delete this artist?'))) return false" />
 							</form>

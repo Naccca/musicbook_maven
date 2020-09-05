@@ -45,9 +45,9 @@ public class ArtistsController {
 	@GetMapping("")
 	public String index(Model model) {
 		
-		List<Artist> artist = artistService.getArtists();
+		List<Artist> artists = artistService.getArtists();
 		
-		model.addAttribute("artists", artist);
+		model.addAttribute("artists", artists);
 		
 		return "artists/index";
 	}
@@ -129,6 +129,16 @@ public class ArtistsController {
 		artistService.deleteArtist(deleteArtistForm);
 		
 		return "redirect:/logout";
+	}
+	
+	@GetMapping("/search")
+	public String search(@RequestParam("search") String search, Model model) {
+		
+		List<Artist> artists = artistService.searchArtists(search);
+		
+		model.addAttribute("artists", artists);
+		
+		return "artists/index";
 	}
 	
 	@InitBinder

@@ -15,4 +15,6 @@ public interface ArtistDAO {
 	public void deleteArtist(int id);
 	
 	public Artist findArtistByUsername(String username);
+
+	public List<Artist> searchArtists(String search);
 }

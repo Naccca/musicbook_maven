@@ -20,4 +20,6 @@ public interface ArtistService {
 	public Artist getArtistByUsername(String username);
 
 	public void deleteArtist(DeleteArtistForm artist);
+
+	public List<Artist> searchArtists(String search);
 }

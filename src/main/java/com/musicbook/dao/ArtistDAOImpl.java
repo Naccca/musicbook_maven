@@ -69,4 +69,18 @@ public class ArtistDAOImpl implements ArtistDAO {
 		
 		return query.uniqueResult(); 
 	}
+
+	@Override
+	public List<Artist> searchArtists(String search) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Artist> query = currentSession.createQuery("from Artist a where upper(a.name) like upper(:search)", Artist.class);
+		
+		query.setParameter("search", "%" + search + "%");
+		
+		List<Artist> artists = query.getResultList();
+		
+		return artists;
+	}
 }

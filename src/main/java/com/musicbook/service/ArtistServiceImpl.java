@@ -102,4 +102,11 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		}
 		return builder.build();
 	}
+
+	@Override
+	@Transactional
+	public List<Artist> searchArtists(String search) {
+		
+		return artistDAO.searchArtists(search);
+	}
 }
