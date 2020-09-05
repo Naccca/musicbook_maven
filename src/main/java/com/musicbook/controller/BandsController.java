@@ -129,6 +129,16 @@ public class BandsController {
 		return "redirect:/bands";
 	}
 	
+	@GetMapping("/search")
+	public String search(@RequestParam("search") String search, Model model) {
+		
+		List<Band> bands = bandService.searchBands(search);
+		
+		model.addAttribute("bands", bands);
+		
+		return "bands/index";
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		

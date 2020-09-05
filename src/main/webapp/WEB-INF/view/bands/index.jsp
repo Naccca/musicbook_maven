@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored = "false" %>
 
 <!DOCTYPE html>
@@ -18,6 +19,10 @@
 			<input type="button" value="Add Band" 
 				   onclick="window.location.href='bands/new'; return false;"
 				   class="add-button" />
+			<c:url var="searchUrl"  value="/bands/search" />
+			<form:form action="${searchUrl}" method="GET">
+				<input name="search" placeholder="Search..." />
+			</form:form>
 			<table>
 				<tr>
 					<th>Id</th>
@@ -31,14 +36,14 @@
 					<th>Action</th>
 				</tr>
 				<c:forEach var="tempBand" items="${bands}">
-					<c:url var="showLink" value="/bands/show">
+					<c:url var="showUrl" value="/bands/show">
 						<c:param name="bandId" value="${tempBand.id}"></c:param>
 					</c:url>
-					<c:url var="updateLink" value="/bands/edit">
+					<c:url var="updateUrl" value="/bands/edit">
 						<c:param name="bandId" value="${tempBand.id}"></c:param>
 					</c:url>
 					<tr>
-						<td> <a href="${showLink}">${tempBand.getId()}</a> </td>
+						<td> <a href="${showUrl}">${tempBand.getId()}</a> </td>
 						<td> ${tempBand.getName()} </td>
 						<td> ${tempBand.getBio()} </td>
 						<td> ${tempBand.getLocation()} </td>
@@ -47,9 +52,10 @@
 						<td> ${tempBand.getUpdated_at()} </td>
 						<td> ${tempBand.getOwner().getName()} </td>
 						<td>
-							<a href="${updateLink}">Update</a>
+							<a href="${updateUrl}">Update</a>
 							|
-							<form action="bands/delete" method="POST">
+							<c:url var="deleteUrl"  value="/bands/delete" />
+							<form action="${deleteUrl}" method="POST">
 								<input name="id" value="${tempBand.getId()}" type="hidden" />
 								<input type="submit" value="Delete" class="delete" onclick="if(!(confirm('Are you sure you want to delete this band?'))) return false" />
 							</form>

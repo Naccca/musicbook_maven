@@ -73,4 +73,18 @@ public class BandDAOImpl implements BandDAO {
 		
 	}
 
+	@Override
+	public List<Band> searchBands(String search) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Band> query = currentSession.createQuery("from Band b where upper(b.name) like upper(:search)", Band.class);
+		
+		query.setParameter("search", "%" + search + "%");
+		
+		List<Band> bands = query.getResultList();
+		
+		return bands;
+	}
+
 }

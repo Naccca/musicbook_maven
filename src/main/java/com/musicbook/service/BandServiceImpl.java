@@ -95,4 +95,11 @@ public class BandServiceImpl implements BandService {
 		
 		bandDAO.deleteBand(band.getId());
 	}
+
+	@Override
+	@Transactional
+	public List<Band> searchBands(String search) {
+		
+		return bandDAO.searchBands(search);
+	}
 }

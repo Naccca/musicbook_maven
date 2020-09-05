@@ -20,4 +20,6 @@ public interface BandService {
 	public Band getBand(int id);
 
 	public void deleteBand(DeleteBandForm band);
+
+	public List<Band> searchBands(String search);
 }
