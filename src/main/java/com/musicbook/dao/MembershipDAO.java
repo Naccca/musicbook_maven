@@ -11,4 +11,8 @@ public interface MembershipDAO {
 	public void saveMembership(Membership membership);
 
 	public void deleteMembership(int id);
+
+	Membership findMembership(int bandId, int artistId);
+
+	public List<Membership> getMembershipsByBandId(int bandId);
 }

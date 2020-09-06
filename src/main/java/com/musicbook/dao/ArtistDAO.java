@@ -17,4 +17,6 @@ public interface ArtistDAO {
 	public Artist findArtistByUsername(String username);
 
 	public List<Artist> searchArtists(String search);
+
+	Artist findArtistByName(String name);
 }

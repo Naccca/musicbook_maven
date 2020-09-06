@@ -59,6 +59,18 @@ public class ArtistDAOImpl implements ArtistDAO {
 	}
 	
 	@Override
+	public Artist findArtistByName(String name) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Artist> query = currentSession.createQuery("from Artist where name=:name", Artist.class);
+		
+		query.setParameter("name", name);
+		
+		return query.uniqueResult(); 
+	}
+
+	@Override
 	public Artist findArtistByUsername(String username) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();

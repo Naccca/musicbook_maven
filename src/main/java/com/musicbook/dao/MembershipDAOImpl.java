@@ -49,4 +49,31 @@ public class MembershipDAOImpl implements MembershipDAO {
 		
 		query.executeUpdate();
 	}
+	
+	@Override
+	public Membership findMembership(int bandId, int artistId) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Membership> query = currentSession.createQuery("from Membership where band_id=:bandId and artist_id=:artistId", Membership.class);
+		
+		query.setParameter("bandId", bandId);
+		query.setParameter("artistId", artistId);
+		
+		return query.uniqueResult(); 
+	}
+
+	@Override
+	public List<Membership> getMembershipsByBandId(int bandId) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Membership> query = currentSession.createQuery("from Membership m join fetch m.artist artist where band_id=:bandId", Membership.class);
+		
+		query.setParameter("bandId", bandId);
+		
+		List<Membership> memberships = query.getResultList();
+		
+		return memberships;
+	}
 }
