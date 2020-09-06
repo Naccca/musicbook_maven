@@ -13,7 +13,9 @@ public interface MembershipService {
 	
 	public void accept(Membership membership);
 
-	public void delete(int id);
+	public void delete(Membership membership);
 
 	public List<Membership> getMembershipsByBandId(int bandId);
+
+	public Membership getMembership(int id);
 }

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.musicbook.entity.Band;
 import com.musicbook.entity.Membership;
+import com.musicbook.form.AcceptMembershipForm;
 import com.musicbook.form.CreateMembershipForm;
+import com.musicbook.form.DeleteMembershipForm;
 import com.musicbook.service.BandService;
 import com.musicbook.service.MembershipService;
 
@@ -38,7 +40,7 @@ public class MembershipsController {
 		}
 		
 		if (bindingResult.hasErrors()) {
-			return "bands/show";
+			return "redirect:/bands/show?bandId=" + band.getId();
 		}
 		else {
 			membershipService.create(createMembershipForm);
@@ -47,17 +49,36 @@ public class MembershipsController {
 	}
 	
 	@PostMapping("/accept")
-	public String accept(@ModelAttribute("membership") Membership membership) {
+	public String accept(@Valid @ModelAttribute("membership") AcceptMembershipForm acceptMembershipForm, BindingResult bindingResult, Principal principal) {
 		
-		membershipService.accept(membership);
-		return "redirect:/memberships"; // todo
+		Membership membership = membershipService.getMembership(acceptMembershipForm.getId());
+		if(!membership.getArtist().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "redirect:/artists/show?artistId=" + membership.getArtist().getId();
+		}
+		else {
+			membershipService.accept(membership);
+			return "redirect:/artists/show?artistId=" + membership.getArtist().getId();
+		}
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@ModelAttribute("membership") Membership membership) {
+	public String delete(@Valid @ModelAttribute("membership") DeleteMembershipForm deleteMembershipForm, BindingResult bindingResult, Principal principal) {
 		
-		membershipService.delete(membership.getId());
+		Membership membership = membershipService.getMembership(deleteMembershipForm.getId());
+		if(!membership.getArtist().getUsername().equals(principal.getName()) && !membership.getBand().getOwner().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
 		
-		return "redirect:/memberships"; //todo
+		if (bindingResult.hasErrors()) {
+			return "redirect:/artists/show?artistId=" + membership.getArtist().getId();
+		}
+		else {
+			membershipService.delete(membership);
+			return "redirect:/artists/show?artistId=" + membership.getArtist().getId();
+		}
 	}
 }

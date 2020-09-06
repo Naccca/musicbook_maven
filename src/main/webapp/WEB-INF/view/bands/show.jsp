@@ -42,6 +42,7 @@
 					<th>Created at</th>
 					<th>Updated at</th>
 					<th>State id </th>
+					<th>Actions</th>
 				</tr>
 				<c:forEach var="membership" items="${memberships}">
 					<c:url var="showUrl" value="/artists/show">
@@ -57,9 +58,66 @@
 						<td> ${membership.getArtist().getCreated_at()} </td>
 						<td> ${membership.getArtist().getUpdated_at()} </td>
 						<td> ${membership.getState_id()} </td>
+						<td>
+							<c:if test="${not empty pageContext.request.userPrincipal}">
+								<c:if test="${pageContext.request.userPrincipal.name == band.getOwner().getUsername()}">
+									<c:if test="${band.getOwner().getId() != membership.getArtist().getId()}">
+										<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
+										<form:form action="${deleteMembershipUrl}" method="POST">
+											<input name="id" value="${membership.getId()}" type="hidden" />
+											<input type="submit" value="Kick" class="save"/>
+										</form:form>
+									</c:if>
+								</c:if>
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
+			
+			<c:if test="${not empty pageContext.request.userPrincipal}">
+				<c:if test="${pageContext.request.userPrincipal.name == band.getOwner().getUsername()}">
+					<div id="header">
+						<h2>Invites</h2>
+					</div>
+					<table>
+						<tr>
+							<th>Id</th>
+							<th>Username</th>
+							<th>Name</th>
+							<th>Bio</th>
+							<th>Location</th>
+							<th>Instruments</th>
+							<th>Created at</th>
+							<th>Updated at</th>
+							<th>State id </th>
+						</tr>
+						<c:forEach var="invite" items="${invites}">
+							<c:url var="showLink" value="/artists/show">
+								<c:param name="artistId" value="${invite.getArtist().id}"></c:param>
+							</c:url>
+							<tr>
+								<td> <a href="${showLink}">${invite.getArtist().id}</a> </td>
+								<td> ${invite.getArtist().getUsername()} </td>
+								<td> ${invite.getArtist().getName()} </td>
+								<td> ${invite.getArtist().getBio()} </td>
+								<td> ${invite.getArtist().getLocation()} </td>
+								<td> ${invite.getArtist().getInstruments()} </td>
+								<td> ${invite.getArtist().getCreated_at()} </td>
+								<td> ${invite.getArtist().getUpdated_at()} </td>
+								<td> ${invite.getState_id()} </td>
+								<td>
+									<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
+									<form:form action="${deleteMembershipUrl}" method="POST">
+										<input name="id" value="${invite.getId()}" type="hidden" />
+										<input type="submit" value="Uninvite" class="save"/>
+									</form:form>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+			</c:if>
 			
 			<c:if test="${not empty pageContext.request.userPrincipal}">
 				<c:if test="${pageContext.request.userPrincipal.name == band.getOwner().getUsername()}">

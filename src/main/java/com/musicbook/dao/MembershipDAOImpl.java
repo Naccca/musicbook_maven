@@ -76,4 +76,14 @@ public class MembershipDAOImpl implements MembershipDAO {
 		
 		return memberships;
 	}
+
+	@Override
+	public Membership getMembership(int id) {
+	
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Membership membership = currentSession.get(Membership.class, id);
+		
+		return membership;
+	}
 }

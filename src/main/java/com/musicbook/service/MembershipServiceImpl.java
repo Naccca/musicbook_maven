@@ -66,14 +66,24 @@ public class MembershipServiceImpl implements MembershipService {
 
 	@Override
 	@Transactional
-	public void delete(int id) {
+	public void delete(Membership membership) {
 		
-		membershipDAO.deleteMembership(id);
+		if(membership.getBand().getOwner().getId() == membership.getArtist().getId()) {
+			return;
+		}
+		
+		membershipDAO.deleteMembership(membership.getId());
 	}
 
 	@Override
 	@Transactional
 	public List<Membership> getMembershipsByBandId(int bandId) {
 		return membershipDAO.getMembershipsByBandId(bandId);
+	}
+	
+	@Override
+	@Transactional
+	public Membership getMembership(int id) {
+		return membershipDAO.getMembership(id);
 	}
 }

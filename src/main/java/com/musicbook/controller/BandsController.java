@@ -2,6 +2,8 @@ package com.musicbook.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -58,11 +60,13 @@ public class BandsController {
 		
 		Band band = bandService.getBand(id);
 		List<Membership> memberships = membershipService.getMembershipsByBandId(band.getId());
+		Map<Integer, List<Membership>> membershipsByStateId = memberships.stream().collect(Collectors.groupingBy(Membership::getState_id));
 		CreateMembershipForm createMembershipForm = new CreateMembershipForm();
 		createMembershipForm.setBand_id(band.getId());
 		
 		model.addAttribute("band", band);
-		model.addAttribute("memberships", memberships);
+		model.addAttribute("invites", membershipsByStateId.get(Membership.STATE_INVITED));
+		model.addAttribute("memberships", membershipsByStateId.get(Membership.STATE_ACCEPTED));
 		model.addAttribute("createMembershipForm", createMembershipForm);
 		
 		return "bands/show";

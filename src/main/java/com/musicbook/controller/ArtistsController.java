@@ -2,6 +2,8 @@ package com.musicbook.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -58,10 +60,12 @@ public class ArtistsController {
 		Artist artist = artistService.getArtist(id);
 		List<Band> bands = bandService.getBandsByOwnerId(id);
 		List<Membership> memberships = membershipService.getMembershipsByArtistId(id);
+		Map<Integer, List<Membership>> membershipsByStateId = memberships.stream().collect(Collectors.groupingBy(Membership::getState_id));
 		
 		model.addAttribute("artist", artist);
 		model.addAttribute("bands", bands);
-		model.addAttribute("memberships", memberships);
+		model.addAttribute("invites", membershipsByStateId.get(Membership.STATE_INVITED));
+		model.addAttribute("memberships", membershipsByStateId.get(Membership.STATE_ACCEPTED));
 		
 		return "artists/show";
 	}

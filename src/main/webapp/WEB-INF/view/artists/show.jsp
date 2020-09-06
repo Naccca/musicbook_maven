@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored = "false" %>
 
 <!DOCTYPE html>
@@ -81,6 +82,7 @@
 					<th>Genres</th>
 					<th>Created at</th>
 					<th>Updated at</th>
+					<th>Actions</th>
 				</tr>
 				<c:forEach var="membership" items="${memberships}">
 					<c:url var="showLink" value="/bands/show">
@@ -95,9 +97,70 @@
 						<td> ${membership.getBand().genres} </td>
 						<td> ${membership.getBand().created_at} </td>
 						<td> ${membership.getBand().updated_at} </td>
+						<td>
+							<c:if test="${not empty pageContext.request.userPrincipal}">
+								<c:if test="${pageContext.request.userPrincipal.name == artist.getUsername()}">
+									<c:if test="${artist.getId() != membership.getBand().getOwner().getId()}">
+										<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
+										<form:form action="${deleteMembershipUrl}" method="POST">
+											<input name="id" value="${membership.getId()}" type="hidden" />
+											<input type="submit" value="Leave" class="save"/>
+										</form:form>
+									</c:if>
+								</c:if>
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
+			
+			<c:if test="${not empty pageContext.request.userPrincipal}">
+				<c:if test="${pageContext.request.userPrincipal.name == artist.getUsername()}">
+					<div id="header">
+						<h2>My Invites</h2>
+					</div>
+					<table>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>State ID</th>
+							<th>Bio</th>
+							<th>Location</th>
+							<th>Genres</th>
+							<th>Created at</th>
+							<th>Updated at</th>
+							<th>Actions</th>
+						</tr>
+						<c:forEach var="invite" items="${invites}">
+							<c:url var="showLink" value="/bands/show">
+								<c:param name="bandId" value="${invite.getBand().id}"></c:param>
+							</c:url>
+							<tr>
+								<td> <a href="${showLink}">${invite.getBand().id}</a> </td>
+								<td> ${invite.getBand().name} </td>
+								<td> ${invite.state_id} </td>
+								<td> ${invite.getBand().bio} </td>
+								<td> ${invite.getBand().location} </td>
+								<td> ${invite.getBand().genres} </td>
+								<td> ${invite.getBand().created_at} </td>
+								<td> ${invite.getBand().updated_at} </td>
+								<td>
+									<c:url var="acceptMembershipUrl"  value="/memberships/accept" />
+									<form:form action="${acceptMembershipUrl}" method="POST">
+										<input name="id" value="${invite.getId()}" type="hidden" />
+										<input type="submit" value="Accept" class="save"/>
+									</form:form> |
+									<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
+									<form:form action="${deleteMembershipUrl}" method="POST">
+										<input name="id" value="${invite.getId()}" type="hidden" />
+										<input type="submit" value="Reject" class="save"/>
+									</form:form>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+			</c:if>
 		</div>
 	</div>
 </body>

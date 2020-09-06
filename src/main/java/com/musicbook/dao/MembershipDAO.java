@@ -12,7 +12,9 @@ public interface MembershipDAO {
 
 	public void deleteMembership(int id);
 
-	Membership findMembership(int bandId, int artistId);
+	public Membership findMembership(int bandId, int artistId);
 
 	public List<Membership> getMembershipsByBandId(int bandId);
+
+	public Membership getMembership(int id);
 }
