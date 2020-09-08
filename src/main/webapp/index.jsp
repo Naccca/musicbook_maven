@@ -1,42 +1,46 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page isELIgnored = "false" %>
+<%@ page isELIgnored = "false" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Musicbook</title>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
-</head>
-<body>
-	<div id="wrapper">
-		<div id="header">
-			<h2>Musicbook</h2>
+<jsp:include page="include/head.jsp" />
+<c:url var="backgroundUrl" value="/resources/images/grey_background.jpg" />
+<body style="background: url(${backgroundUrl});">
+	<jsp:include page="include/nav.jsp" />
+	<section class="hero">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<h1 class="title is-spaced is-1">musicbook</h1>
+				<h4 class="title is-4">Find musicians and bands and together create some awesome music</h4>
+				<div class="buttons is-centered">
+					<c:url var="signupUrl" value="/artists/new" />
+					<c:url var="loginUrl" value="/login" />
+					<a class="control button is-success" href="${signupUrl}">Sign up for free</a>
+					<a class="control button is-info" href="${loginUrl}">Login</a>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div id="container">
-		<div id="content">
-			<c:if test="${not empty pageContext.request.userPrincipal}">
-    			Welcome <c:out value="${pageContext.request.userPrincipal.name}" />
-    			<br />
-			</c:if>
-			<a href="${pageContext.request.contextPath}/artists">Artists</a>
-			<br />
-			<a href="${pageContext.request.contextPath}/bands">Bands</a>
-			<br />
-			<c:choose>
-				<c:when test="${not empty pageContext.request.userPrincipal}">
-					<a href="${pageContext.request.contextPath}/logout">Logout</a>
-					<br />
-				</c:when>
-				<c:otherwise>
-					<a href="${pageContext.request.contextPath}/artists/new">Sign up</a>
-					<br />
-					<a href="${pageContext.request.contextPath}/login">Login</a>
-					<br />
-				</c:otherwise>
-			</c:choose>
+		<div class="container">
+			<div class="columns is-desktop is-vcentered">
+				<div class="column is-6-desktop">
+					<c:url var="titleImageUrl" value="/resources/images/musicbook.jpeg" />
+					<img src="${titleImageUrl}" alt="">
+				</div>
+				<div class="column is-6-desktop">
+					<h2 class="title is-spaced">Musicbook is place where talents meet</h2>
+					<div class="content is-medium">
+						<ul>
+							<li>Simply create an account with all the fun music information that you would like to share with the world.</li>
+							<li>You can create a band profile of all genres and types.</li>
+							<li>As a creator of a band, you can send invites to musicians who you would like to be part of your crew.</li>
+						</ul>
+					</div>
+					<h5 class="title is-5">Search and find the ones who share your vision</h5>
+				</div>
+			</div>
 		</div>
-	</div>
+	</section>
+	<jsp:include page="include/footer.jsp" />
 </body>
 
 </html>

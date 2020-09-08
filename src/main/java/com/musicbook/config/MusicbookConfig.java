@@ -54,6 +54,7 @@ public class MusicbookConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
         registry.addResourceHandler("/images/artists/**").addResourceLocations("file://" + env.getProperty("file-upload.artists-dir"));
         registry.addResourceHandler("/images/bands/**").addResourceLocations("file://" + env.getProperty("file-upload.bands-dir"));
     }
