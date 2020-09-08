@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/bands/new").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/bands/create").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/bands/edit").hasAnyAuthority("USER").and()
+			.authorizeRequests().antMatchers("/bands/upload").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/bands/update").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/bands/delete").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/memberships/create").hasAnyAuthority("USER").and()

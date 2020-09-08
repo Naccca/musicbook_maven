@@ -1,5 +1,6 @@
 package com.musicbook.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
 import com.musicbook.entity.Band;
@@ -139,7 +141,7 @@ public class BandsController {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
-		bandService.deleteBand(deleteBandForm);
+		bandService.deleteBand(band);
 		
 		return "redirect:/bands";
 	}
@@ -152,6 +154,19 @@ public class BandsController {
 		model.addAttribute("bands", bands);
 		
 		return "bands/index";
+	}
+	
+	@PostMapping("/upload")
+	public String upload(@RequestParam("file") MultipartFile file, @RequestParam("bandId") int bandId, Principal principal) throws IOException {
+		
+		Band band = bandService.getBand(bandId);
+		if (!band.getOwner().getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		bandService.processAndSaveImage(band, file);
+		
+		return "redirect:/bands/show?bandId=" + band.getId();
 	}
 	
 	@InitBinder

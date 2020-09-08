@@ -132,7 +132,7 @@ public class ArtistsController {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
-		artistService.deleteArtist(deleteArtistForm);
+		artistService.deleteArtist(artist);
 		
 		return "redirect:/logout";
 	}

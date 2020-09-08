@@ -1,5 +1,6 @@
 package com.musicbook.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.musicbook.dao.ArtistDAO;
 import com.musicbook.entity.Artist;
 import com.musicbook.form.CreateArtistForm;
-import com.musicbook.form.DeleteArtistForm;
 import com.musicbook.form.UpdateArtistForm;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -92,8 +92,12 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 
 	@Override
 	@Transactional
-	public void deleteArtist(DeleteArtistForm artist) {
+	public void deleteArtist(Artist artist) {
 		
+		if (artist.isHas_image()) {
+			new File(env.getProperty("file-upload.artists-dir") + artist.getId() + "_big.jpg").delete();
+			new File(env.getProperty("file-upload.artists-dir") + artist.getId() + "_small.jpg").delete();
+		}
 		artistDAO.deleteArtist(artist.getId());
 	}
 
@@ -130,12 +134,11 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 			return;
 		}
 		
-		String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
-		String tempFileName = env.getProperty("file-upload.tmp-dir") + artist.getId() + "_temp." + extension;
+		String tempFileName = env.getProperty("file-upload.tmp-dir") + artist.getId() + "_artist_temp.jpg";
 		file.transferTo(Paths.get(tempFileName));
 		
-		String bigFileName = env.getProperty("file-upload.artists-dir") + artist.getId() + "_big." + extension;
-		String smallFileName = env.getProperty("file-upload.artists-dir") + artist.getId() + "_small." + extension;
+		String bigFileName = env.getProperty("file-upload.artists-dir") + artist.getId() + "_big.jpg";
+		String smallFileName = env.getProperty("file-upload.artists-dir") + artist.getId() + "_small.jpg";
 		
 		Thumbnails.of(tempFileName)
 			.crop(Positions.CENTER)

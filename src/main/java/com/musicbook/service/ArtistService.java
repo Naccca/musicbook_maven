@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
 import com.musicbook.form.CreateArtistForm;
-import com.musicbook.form.DeleteArtistForm;
 import com.musicbook.form.UpdateArtistForm;
 
 public interface ArtistService {
@@ -22,7 +21,7 @@ public interface ArtistService {
 	
 	public Artist getArtistByUsername(String username);
 
-	public void deleteArtist(DeleteArtistForm artist);
+	public void deleteArtist(Artist artist);
 
 	public List<Artist> searchArtists(String search);
 

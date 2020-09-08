@@ -1,10 +1,12 @@
 package com.musicbook.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Band;
 import com.musicbook.form.CreateBandForm;
-import com.musicbook.form.DeleteBandForm;
 import com.musicbook.form.UpdateBandForm;
 
 public interface BandService {
@@ -19,7 +21,9 @@ public interface BandService {
 
 	public Band getBand(int id);
 
-	public void deleteBand(DeleteBandForm band);
+	public void deleteBand(Band band);
 
 	public List<Band> searchBands(String search);
+
+	public void processAndSaveImage(Band band, MultipartFile file) throws IOException;
 }

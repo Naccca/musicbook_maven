@@ -16,6 +16,26 @@
 	</div>
 	<div id="container">
 		<div id="content">
+			<c:choose>
+				<c:when test="${band.has_image}">
+					<img src="<c:url value="${request.getContextPath()}/images/bands/${band.id}_big.jpg"/>" />
+				</c:when>
+				<c:otherwise>
+					<img src="<c:url value="/resources/images/placeholder_big.jpg"/>" />
+				</c:otherwise>
+			</c:choose>
+			<c:url var="uploadUrl"  value="/bands/upload" />
+			<form:form method="POST" action="${uploadUrl}" enctype="multipart/form-data">
+				<input name="bandId" value="${band.getId()}" type="hidden" />
+				<table>
+					<tr>
+						<td><input type="file" name="file" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Submit" /></td>
+					</tr>
+				</table>
+			</form:form>
 			<p>Id: ${band.getId()}</p>
 			<p>Name: ${band.getName()}</p>
 			<p>Bio: ${band.getBio()}</p>
