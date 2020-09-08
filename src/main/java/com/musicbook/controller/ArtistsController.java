@@ -1,5 +1,6 @@
 package com.musicbook.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
 import com.musicbook.entity.Band;
@@ -143,6 +145,19 @@ public class ArtistsController {
 		model.addAttribute("artists", artists);
 		
 		return "artists/index";
+	}
+	
+	@PostMapping("/upload")
+	public String upload(@RequestParam("file") MultipartFile file, @RequestParam("artistId") int artistId, Principal principal) throws IOException {
+		
+		Artist artist = artistService.getArtist(artistId);
+		if (!artist.getUsername().equals(principal.getName())) {
+			throw new AccessDeniedException("Forbidden");
+		}
+		
+		artistService.processAndSaveImage(artist, file);
+		
+		return "redirect:/artists/show?artistId=" + artist.getId();
 	}
 	
 	@InitBinder

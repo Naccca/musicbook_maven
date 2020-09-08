@@ -1,6 +1,9 @@
 package com.musicbook.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
 import com.musicbook.form.CreateArtistForm;
@@ -22,4 +25,6 @@ public interface ArtistService {
 	public void deleteArtist(DeleteArtistForm artist);
 
 	public List<Artist> searchArtists(String search);
+
+	public void processAndSaveImage(Artist artist, MultipartFile file) throws IOException;
 }

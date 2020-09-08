@@ -16,6 +16,26 @@
 	</div>
 	<div id="container">
 		<div id="content">
+			<c:choose>
+				<c:when test="${artist.has_image}">
+					<img src="<c:url value="${request.getContextPath()}/images/artists/${artist.id}_big.jpg"/>" />
+				</c:when>
+				<c:otherwise>
+					<img src="<c:url value="/resources/images/placeholder_big.jpg"/>" />
+				</c:otherwise>
+			</c:choose>
+			<c:url var="uploadUrl"  value="/artists/upload" />
+			<form:form method="POST" action="${uploadUrl}" enctype="multipart/form-data">
+				<input name="artistId" value="${artist.getId()}" type="hidden" />
+				<table>
+					<tr>
+						<td><input type="file" name="file" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Submit" /></td>
+					</tr>
+				</table>
+			</form:form>
 			<p>Id: ${artist.getId()}</p>
 			<p>Username: ${artist.getUsername()}</p>
 			<p>Name: ${artist.getName()}</p>

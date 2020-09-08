@@ -35,7 +35,6 @@
 					<br />
 				</c:otherwise>
 			</c:choose>
-			<sec:authorize access="hasAnyAuthority('USER')" var="isAuthenticated"></sec:authorize>
 		</div>
 	</div>
 </body>
