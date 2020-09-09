@@ -3,10 +3,10 @@
 
 <!DOCTYPE html>
 <html>
-<jsp:include page="include/head.jsp" />
+<jsp:include page="/WEB-INF/view/include/head.jsp" />
 <c:url var="backgroundUrl" value="/resources/images/grey_background.jpg" />
 <body style="background: url(${backgroundUrl});">
-	<jsp:include page="include/nav.jsp" />
+	<jsp:include page="/WEB-INF/view/include/nav.jsp" />
 	<section class="hero">
 		<div class="hero-body">
 			<div class="container has-text-centered">
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</section>
-	<jsp:include page="include/footer.jsp" />
+	<jsp:include page="/WEB-INF/view/include/footer.jsp" />
 </body>
 
 </html>

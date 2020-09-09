@@ -18,9 +18,7 @@
 			<div class="navbar-start">
 				<a href="${homeUrl}" class="navbar-item">Home</a>
 				<c:if test="${not empty pageContext.request.userPrincipal}">
-					<c:url var="myProfileUrl" value="/artists/show">
-						<c:param name="artistId" value="1"></c:param>
-					</c:url>
+					<c:url var="myProfileUrl" value="/artists/my-profile" />
 					<c:url var="newBandUrl" value="/bands/new" />
 	    			<a href="${myProfileUrl}" class="navbar-item">My profile</a>
 					<a href="${newBandUrl}" class="navbar-item">Create band</a>

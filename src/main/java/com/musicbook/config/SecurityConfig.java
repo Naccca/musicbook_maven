@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/artists/update").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/artists/edit").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/artists/upload").hasAnyAuthority("USER").and()
+			.authorizeRequests().antMatchers("/artists/my-profile").hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/artists/new").not().hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/artists/create").not().hasAnyAuthority("USER").and()
 			.authorizeRequests().antMatchers("/bands/new").hasAnyAuthority("USER").and()

@@ -1,63 +1,74 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored = "false" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Sign Up</title>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/add-artist-style.css" />
-</head>
-
-<body>
-	<div id="wrapper">
-		<div id="header">
-			<h2>Sign Up</h2>
+<jsp:include page="../include/head.jsp" />
+<c:url var="backgroundUrl" value="/resources/images/grey_background.jpg" />
+<body style="background: url(${backgroundUrl});">
+	<jsp:include page="../include/nav.jsp" />
+	<section class="section">
+		<div class="container has-text-centered">
+			<h3 class="title is-3">Sign up</h3>
+			<div class="columns is-centered">
+				<div class="column is-5 is-4-desktop">
+					<form:form action="create" modelAttribute="artist" method="POST">
+						<div class="field">
+							<div class="control">
+								Username:
+								<form:input path="username" cssClass="input" />
+							</div>
+						</div>
+						<form:errors path="username" element="div" cssClass="notification is-danger" />
+						
+						<div class="field">
+							<div class="control">
+								Password:
+								<form:password path="password" cssClass="input" />
+							</div>
+						</div>
+						<form:errors path="password" element="div" cssClass="notification is-danger" />
+						
+						<div class="field">
+							<div class="control">
+								Name:
+								<form:input path="name" cssClass="input" />
+							</div>
+						</div>
+						<form:errors path="name" element="div" cssClass="notification is-danger" />
+						
+						<div class="field">
+							<div class="control">
+								Location:
+								<form:input path="location" cssClass="input" />
+							</div>
+						</div>
+						<form:errors path="location" element="div" cssClass="notification is-danger" />
+						
+						<div class="field">
+							<div class="control">
+								Instruments:
+								<form:input path="instruments" cssClass="input" placeholder="Separated by a comma" />
+							</div>
+						</div>
+						<form:errors path="instruments" element="div" cssClass="notification is-danger" />
+						
+						<div class="field">
+							<div class="control">
+								Biography:
+								<form:textarea path="bio" cssClass="textarea" />
+							</div>
+						</div>
+						<form:errors path="bio" element="div" cssClass="notification is-danger" />
+						
+						<br>
+						<input class="button is-success"  type="submit" value="Submit" />
+					</form:form>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div id="container">
-		<form:form action="create" modelAttribute="artist" method="POST">
-			<table>
-				<tbody>
-					<tr>
-						<td><label>Username:</label></td>
-						<td><form:input path="username"/></td>
-						<td><form:errors path="username" cssClass="error" /></td>
-					</tr>
-					<tr>
-						<td><label>Name:</label></td>
-						<td><form:input path="name"/></td>
-						<td><form:errors path="name" cssClass="error" /></td>
-					</tr>
-					<tr>
-						<td><label>Password:</label></td>
-						<td><form:input path="password"/></td>
-						<td><form:errors path="password" cssClass="error" /></td>
-					</tr>
-					<tr>
-						<td><label>Bio:</label></td>
-						<td><form:input path="bio"/></td>
-					</tr>
-					<tr>
-						<td><label>Location:</label></td>
-						<td><form:input path="location"/></td>
-					</tr>
-					<tr>
-						<td><label>Instruments:</label></td>
-						<td><form:input path="instruments"/></td>
-					</tr>
-					<tr>
-						<td><label></label></td>
-						<td><input type="submit" value="Save" class="save"/></td>
-					</tr>
-				</tbody>
-			</table>
-		</form:form>
-		<div style="clear; both;"></div>
-		<p>
-			<a href="${pageContext.request.contextPath}/artists">Back to List</a>
-		</p>
-	</div>
+	</section>
+	<jsp:include page="../include/footer.jsp" />
 </body>
-
 </html>

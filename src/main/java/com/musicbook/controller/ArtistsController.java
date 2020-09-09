@@ -24,13 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
-import com.musicbook.entity.Band;
 import com.musicbook.entity.Membership;
 import com.musicbook.form.CreateArtistForm;
 import com.musicbook.form.DeleteArtistForm;
 import com.musicbook.form.UpdateArtistForm;
 import com.musicbook.service.ArtistService;
-import com.musicbook.service.BandService;
 import com.musicbook.service.MembershipService;
 
 @Controller
@@ -39,9 +37,6 @@ public class ArtistsController {
 	
 	@Autowired
 	private ArtistService artistService;
-	
-	@Autowired
-	private BandService bandService;
 	
 	@Autowired
 	private MembershipService membershipService;
@@ -60,16 +55,22 @@ public class ArtistsController {
 	public String show(@RequestParam("artistId") int id, Model model) {
 		
 		Artist artist = artistService.getArtist(id);
-		List<Band> bands = bandService.getBandsByOwnerId(id);
 		List<Membership> memberships = membershipService.getMembershipsByArtistId(id);
 		Map<Integer, List<Membership>> membershipsByStateId = memberships.stream().collect(Collectors.groupingBy(Membership::getState_id));
 		
 		model.addAttribute("artist", artist);
-		model.addAttribute("bands", bands);
 		model.addAttribute("invites", membershipsByStateId.get(Membership.STATE_INVITED));
 		model.addAttribute("memberships", membershipsByStateId.get(Membership.STATE_ACCEPTED));
 		
 		return "artists/show";
+	}
+	
+	@GetMapping("/my-profile")
+	public String myProfile(Principal principal) {
+		
+		Artist artist = artistService.getArtistByUsername(principal.getName());
+		
+		return "redirect:show?artistId=" + artist.getId();
 	}
 	
 	@GetMapping("/new")
