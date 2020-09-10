@@ -11,6 +11,11 @@ MySql database is used for development of this project.
 
 Java 8 and Maven.
 
+## Setup
+
+Make sure to configure file-upload.properties and persistence-mysql.properties to suit your system.
+
+MySql script for creating database with all tables is distributed separately.
 
 ## Functionality Description
 
