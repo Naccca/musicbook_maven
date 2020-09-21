@@ -116,7 +116,7 @@ public class BandsController {
 		}
 		else {
 			bandService.updateBand(updateBandForm);
-			return "redirect:/bands";
+			return "redirect:/bands/show?bandId=" + band.getId();
 		}
 	}
 	

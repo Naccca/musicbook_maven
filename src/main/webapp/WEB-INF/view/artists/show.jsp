@@ -144,11 +144,13 @@
 						<br>
 						<c:if test="${not empty pageContext.request.userPrincipal}">
 							<c:if test="${pageContext.request.userPrincipal.name == artist.getUsername()}">
-								<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
-								<form class="field" method="POST" action="${deleteMembershipUrl}">
-									<input name="id" value="${membership.id}" style="display: none" />
-									<input type="submit" class="button is-danger" value="Leave" onclick="if(!(confirm('Are you sure?'))) return false" />
-								</form>
+								<c:if test="${artist.id != membership.band.owner.id}">
+									<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
+									<form class="field" method="POST" action="${deleteMembershipUrl}">
+										<input name="id" value="${membership.id}" style="display: none" />
+										<input type="submit" class="button is-danger" value="Leave" onclick="if(!(confirm('Are you sure?'))) return false" />
+									</form>
+								</c:if>
 							</c:if>
 						</c:if>	
 					</div>

@@ -108,7 +108,7 @@ public class ArtistsController {
 		}
 		else {
 			artistService.updateArtist(updateArtistForm);
-			return "redirect:/artists";
+			return "redirect:/artists/show?artistId=" + artist.getId();
 		}
 	}
 	

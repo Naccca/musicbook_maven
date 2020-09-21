@@ -40,7 +40,7 @@
 								<form:input path="genres" cssClass="input" placeholder="Separated by a comma" />
 							</div>
 						</div>
-						<form:errors path="instruments" element="div" cssClass="notification is-danger" />
+						<form:errors path="genres" element="div" cssClass="notification is-danger" />
 						
 						<div class="field">
 							<div class="control">
