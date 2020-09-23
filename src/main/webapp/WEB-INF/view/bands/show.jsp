@@ -15,7 +15,7 @@
 			<nav class="level">
 				<div class="level-item has-text-centered"></div>
 				<c:if test="${not empty pageContext.request.userPrincipal}">
-					<c:if test="${pageContext.request.userPrincipal.name == band.owner.username}">
+					<c:if test="${pageContext.request.userPrincipal.name == band.owner.email}">
 						<div class="level-right">
 							<p class="level-item">
 								<c:url var="bandEditUrl" value="/bands/edit">
@@ -46,7 +46,7 @@
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${not empty pageContext.request.userPrincipal}">
-					<c:if test="${pageContext.request.userPrincipal.name == band.owner.username}">
+					<c:if test="${pageContext.request.userPrincipal.name == band.owner.email}">
 						<div id="file-uploader" class="file has-name is-centered">
 							<c:url var="uploadUrl"  value="/bands/upload" />
 							<form action="${uploadUrl}" method="POST" enctype="multipart/form-data">
@@ -141,7 +141,7 @@
 						</div>
 						<br />
 						<c:if test="${not empty pageContext.request.userPrincipal}">
-							<c:if test="${pageContext.request.userPrincipal.name == band.owner.username}">
+							<c:if test="${pageContext.request.userPrincipal.name == band.owner.email}">
 								<c:if test="${band.owner.id != membership.artist.id}">
 									<c:url var="deleteMembershipUrl"  value="/memberships/delete" />
 									<form class="field" method="POST" action="${deleteMembershipUrl}">
@@ -158,7 +158,7 @@
 	</section>
 	
 	<c:if test="${not empty pageContext.request.userPrincipal}">
-		<c:if test="${pageContext.request.userPrincipal.name == band.owner.username}">
+		<c:if test="${pageContext.request.userPrincipal.name == band.owner.email}">
 			<section class="section">
 				<div class="container has-text-centered">
 					<h4 class="title is-4">Invites</h4>
@@ -189,7 +189,7 @@
 	</c:if>
 	
 	<c:if test="${not empty pageContext.request.userPrincipal}">
-		<c:if test="${pageContext.request.userPrincipal.name == band.owner.username}">
+		<c:if test="${pageContext.request.userPrincipal.name == band.owner.email}">
 			<section class="section">
 				<div class="container has-text-centered">
 					<div class="columns is-centered">

@@ -29,11 +29,11 @@ public class ArtistDAOImpl implements ArtistDAO {
 	}
 
 	@Override
-	public void saveArtist(Artist artist) {
+	public Artist saveArtist(Artist artist) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.merge(artist);
+		return (Artist)currentSession.merge(artist);
 	}
 
 	@Override
@@ -71,15 +71,27 @@ public class ArtistDAOImpl implements ArtistDAO {
 	}
 
 	@Override
-	public Artist findArtistByUsername(String username) {
+	public Artist findArtistByEmail(String email) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query<Artist> query = currentSession.createQuery("from Artist where username=:username", Artist.class);
+		Query<Artist> query = currentSession.createQuery("from Artist where email=:email", Artist.class);
 		
-		query.setParameter("username", username);
+		query.setParameter("email", email);
 		
 		return query.uniqueResult(); 
+	}
+	
+	@Override
+	public Artist findArtistByToken(String token) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Artist> query = currentSession.createQuery("from Artist where token=:token", Artist.class);
+		
+		query.setParameter("token", token);
+		
+		return query.uniqueResult();
 	}
 
 	@Override

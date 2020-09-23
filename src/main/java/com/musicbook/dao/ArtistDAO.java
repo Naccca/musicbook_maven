@@ -8,15 +8,17 @@ public interface ArtistDAO {
 
 	public List<Artist> getArtists();
 
-	public void saveArtist(Artist artist);
+	public Artist saveArtist(Artist artist);
 
 	public Artist getArtist(int id);
 
 	public void deleteArtist(int id);
 	
-	public Artist findArtistByUsername(String username);
+	public Artist findArtistByEmail(String email);
 
 	public List<Artist> searchArtists(String search);
 
-	Artist findArtistByName(String name);
+	public Artist findArtistByName(String name);
+
+	public Artist findArtistByToken(String token);
 }

@@ -78,7 +78,7 @@ public class BandsController {
 	public String newForm(Model model, Principal principal) {
 		
 		CreateBandForm band = new CreateBandForm();
-		Artist owner = artistService.getArtistByUsername(principal.getName());
+		Artist owner = artistService.getArtistByEmail(principal.getName());
 		band.setOwner_id(owner.getId());
 		
 		model.addAttribute("band", band);
@@ -90,7 +90,7 @@ public class BandsController {
 	public String createBand(@Valid @ModelAttribute("band") CreateBandForm band, BindingResult bindingResult, Principal principal) {
 		
 		Artist owner = artistService.getArtist(band.getOwner_id());
-		if (!owner.getUsername().equals(principal.getName())) {
+		if (!owner.getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -107,7 +107,7 @@ public class BandsController {
 	public String updateBand(@Valid @ModelAttribute("band") UpdateBandForm updateBandForm, BindingResult bindingResult, Principal principal) {
 		
 		Band band = bandService.getBand(updateBandForm.getId());
-		if (!band.getOwner().getUsername().equals(principal.getName())) {
+		if (!band.getOwner().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -124,7 +124,7 @@ public class BandsController {
 	public String editForm(@RequestParam("bandId") int id, Model model, Principal principal) {
 		
 		Band band = bandService.getBand(id);
-		if (!band.getOwner().getUsername().equals(principal.getName())) {
+		if (!band.getOwner().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -137,7 +137,7 @@ public class BandsController {
 	public String deleteBand(@ModelAttribute("band") DeleteBandForm deleteBandForm, Principal principal) {
 		
 		Band band = bandService.getBand(deleteBandForm.getId());
-		if (!band.getOwner().getUsername().equals(principal.getName())) {
+		if (!band.getOwner().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -160,7 +160,7 @@ public class BandsController {
 	public String upload(@RequestParam("file") MultipartFile file, @RequestParam("bandId") int bandId, Principal principal) throws IOException {
 		
 		Band band = bandService.getBand(bandId);
-		if (!band.getOwner().getUsername().equals(principal.getName())) {
+		if (!band.getOwner().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		

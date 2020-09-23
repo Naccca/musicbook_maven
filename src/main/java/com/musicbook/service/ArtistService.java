@@ -19,11 +19,15 @@ public interface ArtistService {
 
 	public Artist getArtist(int id);
 	
-	public Artist getArtistByUsername(String username);
+	public Artist getArtistByEmail(String email);
 
 	public void deleteArtist(Artist artist);
 
 	public List<Artist> searchArtists(String search);
 
 	public void processAndSaveImage(Artist artist, MultipartFile file) throws IOException;
+
+	public Artist getArtistByToken(String token);
+
+	public void verifyArtist(Artist artist);
 }

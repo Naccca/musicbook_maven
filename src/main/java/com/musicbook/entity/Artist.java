@@ -19,8 +19,8 @@ public class Artist {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="username")
-	private String username;
+	@Column(name="email")
+	private String email;
 	
 	@Column(name="password_hash")
 	private String  password_hash;
@@ -46,6 +46,12 @@ public class Artist {
 	@Column(name="has_image")
 	private boolean has_image;
 	
+	@Column(name="is_enabled")
+	private boolean is_enabled;
+	
+	@Column(name="token")
+	private String token;
+	
 	@OneToMany(mappedBy="artist")
 	private List<Membership> memberships;
 	
@@ -63,13 +69,13 @@ public class Artist {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword_hash() {
@@ -136,6 +142,22 @@ public class Artist {
 		this.has_image = has_image;
 	}
 	
+	public boolean isIs_enabled() {
+		return is_enabled;
+	}
+
+	public void setIs_enabled(boolean is_enabled) {
+		this.is_enabled = is_enabled;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public List<Membership> getMemberships() {
 		return memberships;
 	}
@@ -154,7 +176,7 @@ public class Artist {
 
 	@Override
 	public String toString() {
-		return "Artists [id=" + id + ", username=" + username + ", name=" + name + ", created_at=" + created_at
+		return "Artists [id=" + id + ", email=" + email + ", name=" + name + ", created_at=" + created_at
 				+ ", updated_at=" + updated_at + "]";
 	}
 }

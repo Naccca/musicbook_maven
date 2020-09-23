@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -34,6 +35,9 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 	private ArtistDAO artistDAO;
 	
 	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
@@ -51,7 +55,7 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 	public void createArtist(CreateArtistForm createArtistForm) {
 		
 		Artist artist = new Artist();
-		artist.setUsername(createArtistForm.getUsername());
+		artist.setEmail(createArtistForm.getEmail());
 		artist.setName(createArtistForm.getName());
 		artist.setBio(createArtistForm.getBio());
 		artist.setLocation(createArtistForm.getLocation());
@@ -60,7 +64,10 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		artist.setCreated_at(timestamp);
 		artist.setUpdated_at(timestamp);
-		artistDAO.saveArtist(artist);
+		artist.setIs_enabled(false);
+		artist.setToken(UUID.randomUUID().toString());
+		Artist createdArtist = artistDAO.saveArtist(artist);
+		emailService.sendVerificationEmail(createdArtist);
 	}
 	
 	@Override
@@ -85,9 +92,9 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 	
 	@Override
 	@Transactional
-	public Artist getArtistByUsername(String username) {
+	public Artist getArtistByEmail(String email) {
 		
-		return artistDAO.findArtistByUsername(username);
+		return artistDAO.findArtistByEmail(email);
 	}
 
 	@Override
@@ -100,16 +107,34 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		}
 		artistDAO.deleteArtist(artist.getId());
 	}
-
+	
+	@Override
+	@Transactional
+	public Artist getArtistByToken(String token) {
+		
+		return artistDAO.findArtistByToken(token);
+	}
+	
+	@Override
+	@Transactional
+	public void verifyArtist(Artist artist) {
+		
+		artist.setIs_enabled(true);
+		
+		artistDAO.saveArtist(artist);
+	}
+	
+	
+	
 	@Transactional(readOnly = true)
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Artist artist = artistDAO.findArtistByUsername(username);
+		Artist artist = artistDAO.findArtistByEmail(email);
 		UserBuilder builder = null;
-		if (artist != null) {
+		if (artist != null && artist.isIs_enabled()) {
 	      
-			builder = org.springframework.security.core.userdetails.User.withUsername(username);
+			builder = org.springframework.security.core.userdetails.User.withUsername(email);
 			builder.password(artist.getPassword_hash());
 			String[] authorities = {"USER"};
 			builder.authorities(authorities);

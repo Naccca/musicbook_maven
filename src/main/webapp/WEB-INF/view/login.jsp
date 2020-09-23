@@ -16,7 +16,7 @@
 					<form action='<spring:url value="/loginAction"/>' method="POST">
 						<div class="field">
 							<div class="control">
-								Username:
+								Email:
 								<input class="input" type="text" name="username" />
 							</div>
 						</div>

@@ -16,11 +16,11 @@
 					<form:form action="create" modelAttribute="artist" method="POST">
 						<div class="field">
 							<div class="control">
-								Username:
-								<form:input path="username" cssClass="input" />
+								Email:
+								<form:input path="email" cssClass="input" />
 							</div>
 						</div>
-						<form:errors path="username" element="div" cssClass="notification is-danger" />
+						<form:errors path="email" element="div" cssClass="notification is-danger" />
 						
 						<div class="field">
 							<div class="control">

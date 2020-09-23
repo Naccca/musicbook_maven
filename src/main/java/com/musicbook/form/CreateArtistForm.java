@@ -1,13 +1,14 @@
 package com.musicbook.form;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class CreateArtistForm {
 
 	@NotNull(message="is required")
-	@Size(min=3, message="minimum 3 characters")
-	private String username;
+	@Pattern(regexp="^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message="email is not valid")
+	private String email;
 	
 	@NotNull(message="is required")
 	@Size(min=3, message="minimum 3 characters")
@@ -26,13 +27,13 @@ public class CreateArtistForm {
 	public CreateArtistForm() {
 		
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

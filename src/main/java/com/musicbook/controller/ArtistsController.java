@@ -68,7 +68,7 @@ public class ArtistsController {
 	@GetMapping("/my-profile")
 	public String myProfile(Principal principal) {
 		
-		Artist artist = artistService.getArtistByUsername(principal.getName());
+		Artist artist = artistService.getArtistByEmail(principal.getName());
 		
 		return "redirect:show?artistId=" + artist.getId();
 	}
@@ -91,15 +91,25 @@ public class ArtistsController {
 		}
 		else {
 			artistService.createArtist(artist);
-			return "redirect:/login";
+			return "artists/verify_info";
 		}
+	}
+	
+	@GetMapping("/verify")
+	public String verifyArtist(@RequestParam("token") String token) {
+		
+		Artist artist = artistService.getArtistByToken(token);
+		
+		artistService.verifyArtist(artist);
+		
+		return "redirect:/login";
 	}
 	
 	@PostMapping("/update")
 	public String updateArtist(@Valid @ModelAttribute("artist") UpdateArtistForm updateArtistForm, BindingResult bindingResult, Principal principal) {
 		
 		Artist artist = artistService.getArtist(updateArtistForm.getId());
-		if (!artist.getUsername().equals(principal.getName())) {
+		if (!artist.getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -116,7 +126,7 @@ public class ArtistsController {
 	public String editForm(@RequestParam("artistId") int id, Model model, Principal principal) {
 		
 		Artist artist = artistService.getArtist(id);
-		if (!artist.getUsername().equals(principal.getName())) {
+		if (!artist.getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -129,7 +139,7 @@ public class ArtistsController {
 	public String deleteArtist(@ModelAttribute("artist") DeleteArtistForm deleteArtistForm, Principal principal) {
 		
 		Artist artist = artistService.getArtist(deleteArtistForm.getId());
-		if (!artist.getUsername().equals(principal.getName())) {
+		if (!artist.getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -152,7 +162,7 @@ public class ArtistsController {
 	public String upload(@RequestParam("file") MultipartFile file, @RequestParam("artistId") int artistId, Principal principal) throws IOException {
 		
 		Artist artist = artistService.getArtist(artistId);
-		if (!artist.getUsername().equals(principal.getName())) {
+		if (!artist.getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		

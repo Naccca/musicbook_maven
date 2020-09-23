@@ -34,8 +34,8 @@ public class MembershipsController {
 	public String create(@Valid @ModelAttribute("membership") CreateMembershipForm createMembershipForm, BindingResult bindingResult, Principal principal) {
 		
 		Band band = bandService.getBand(createMembershipForm.getBand_id());
-		String artistUsername = band.getOwner().getUsername();
-		if(!artistUsername.equals(principal.getName())) {
+		String artistEmail = band.getOwner().getEmail();
+		if(!artistEmail.equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -52,7 +52,7 @@ public class MembershipsController {
 	public String accept(@Valid @ModelAttribute("membership") AcceptMembershipForm acceptMembershipForm, BindingResult bindingResult, Principal principal) {
 		
 		Membership membership = membershipService.getMembership(acceptMembershipForm.getId());
-		if(!membership.getArtist().getUsername().equals(principal.getName())) {
+		if(!membership.getArtist().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
@@ -69,7 +69,7 @@ public class MembershipsController {
 	public String delete(@Valid @ModelAttribute("membership") DeleteMembershipForm deleteMembershipForm, BindingResult bindingResult, Principal principal) {
 		
 		Membership membership = membershipService.getMembership(deleteMembershipForm.getId());
-		if(!membership.getArtist().getUsername().equals(principal.getName()) && !membership.getBand().getOwner().getUsername().equals(principal.getName())) {
+		if(!membership.getArtist().getEmail().equals(principal.getName()) && !membership.getBand().getOwner().getEmail().equals(principal.getName())) {
 			throw new AccessDeniedException("Forbidden");
 		}
 		
