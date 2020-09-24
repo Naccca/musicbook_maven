@@ -14,7 +14,7 @@
 			<h3 class="title is-3">Artists</h3>
 			<div class="columns">
 				<div class="column is-3">
-					<c:url var="searchUrl"  value="/artists/search" />
+					<c:url var="searchUrl"  value="/artists/search-page" />
 					<form:form action="${searchUrl}" method="GET">
 						<div class="field">
 							<p class="control has-icons-left">

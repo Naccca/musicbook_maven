@@ -10,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.musicbook.serializer.ArtistSerializer;
+
 @Entity
 @Table(name="artists")
+@JsonSerialize(using = ArtistSerializer.class)
 public class Artist {
 
 	@Id

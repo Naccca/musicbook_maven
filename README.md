@@ -15,6 +15,13 @@ Java 8 and Maven.
 
 Make sure to configure file-upload.properties and persistence-mysql.properties to suit your system.
 
+Environment variables for Sendgrid:
+```bash
+export MUSICBOOK_SENDGRID_API_KEY=123
+export MUSICBOOK_SENDGRID_FROM_EMAIL=musicbook@example.com
+```
+Make sure to use a proper Sendgrid api key and verified email address.
+
 MySql script for creating database with all tables is distributed separately.
 
 ## Functionality Description
@@ -37,11 +44,15 @@ Hibernate ORM is an object-relational mapping tool for the Java programming lang
 
 Thumbnailator is a thumbnail generation library for Java.
 
+Sendgrid Java adapter to communicate with Twilio SendGrid Web API.
+
 JSTL provides an effective way to embed logic within a JSP page without using embedded Java code directly.
 
 WebJars are client-side web libraries packaged into JAR files.
 
 Bulma is a free, open source CSS framework based on Flexbox and built with Sass.
+
+EasyAutocomplete is a highly configurable jquery autocomplete plugin.
 
 ## License
 

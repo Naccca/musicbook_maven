@@ -6,6 +6,15 @@
 <!DOCTYPE html>
 <html>
 <jsp:include page="../include/head.jsp" />
+<c:url var="jQueryUrl" value="/webjars/jquery/1.11.3/dist/jquery.min.js" />
+<script src="${jQueryUrl}"></script>
+<c:url var="easyAutocompleteJSUrl" value="/webjars/EasyAutocomplete/1.3.3/dist/jquery.easy-autocomplete.min.js" />
+<script src="${easyAutocompleteJSUrl}"></script>
+<c:url var="easyAutocompleteCSSUrl" value="/webjars/EasyAutocomplete/1.3.3/dist/easy-autocomplete.min.css" />
+<link rel="stylesheet" href="${easyAutocompleteCSSUrl}">
+<c:url var="easyAutocompleteThemeCSSUrl" value="/webjars/EasyAutocomplete/1.3.3/dist/easy-autocomplete.themes.min.css" />
+<link rel="stylesheet" href="${easyAutocompleteThemeCSSUrl}">
+
 <c:url var="backgroundUrl" value="/resources/images/grey_background.jpg" />
 <body style="background: url(${backgroundUrl});">
 	<jsp:include page="../include/nav.jsp" />
@@ -198,7 +207,7 @@
 							<form:form class="field" method="POST" action="${createMembershipUrl}" modelAttribute="createMembershipForm" >
 								<form:hidden path="band_id" />
 								<div class="control">
-									<form:input path="artist_name" placeholder="Artist" cssClass="input" />
+									<form:input path="artist_name" placeholder="Search artists..." id="searchArtists" cssClass="input" />
 								</div>
 								<br />
 								<div class="field">
@@ -209,6 +218,7 @@
 					</div>
 				</div>
 			</section>
+			<c:url var="searchUrl" value="/artists/search" />
 			<script type="text/javascript">
 				(function(){
 					const fileInput = document.querySelector('#file-uploader input[type=file]');
@@ -218,6 +228,16 @@
 							fileName.textContent = fileInput.files[0].name;
 						}
 					}
+					
+					var options = {
+						url: function(phrase) {
+							return "${searchUrl}?search=" + phrase;
+						},
+						getValue: "name",
+						theme: "square"
+					};
+
+					$("#searchArtists").easyAutocomplete(options);
 				})();
 			</script>
 		</c:if>

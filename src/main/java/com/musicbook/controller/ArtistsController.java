@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.entity.Artist;
@@ -148,14 +149,20 @@ public class ArtistsController {
 		return "redirect:/logout";
 	}
 	
-	@GetMapping("/search")
-	public String search(@RequestParam("search") String search, Model model) {
+	@GetMapping("/search-page")
+	public String searchPage(@RequestParam("search") String search, Model model) {
 		
 		List<Artist> artists = artistService.searchArtists(search);
 		
 		model.addAttribute("artists", artists);
 		
 		return "artists/index";
+	}
+	
+	@GetMapping("/search")
+	public @ResponseBody List<Artist> search(@RequestParam("search") String search) {
+		
+		return artistService.searchArtists(search);
 	}
 	
 	@PostMapping("/upload")
