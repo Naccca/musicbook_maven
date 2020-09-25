@@ -37,7 +37,7 @@
 			<div class="block">
 				<c:choose>
 					<c:when test="${artist.has_image}">
-						<c:url var="imageBigUrl" value="/images/artists/${artist.id}_big.jpg" />
+						<c:url var="imageBigUrl" value="/images/artists/artist_${artist.id}_big.jpg" />
 						<img src="${imageBigUrl}" class="is-16by9" alt="" />
 					</c:when>
 					<c:otherwise>
@@ -109,7 +109,7 @@
 			<div class="columns is-centered is-multiline">
 				<c:url var="placeholderSmallUrl" value="/resources/images/placeholder_small.jpg" />
 				<c:forEach var="membership" items="${memberships}">
-					<c:url var="bandImageUrl" value="/images/bands/${membership.band.id}_small.jpg" />
+					<c:url var="bandImageUrl" value="/images/bands/band_${membership.band.id}_small.jpg" />
 					<c:url var="bandShowUrl" value="/bands/show">
 						<c:param name="bandId" value="${membership.band.id}"></c:param>
 					</c:url>

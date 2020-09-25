@@ -1,5 +1,6 @@
 package com.musicbook.test.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -23,6 +24,7 @@ import com.musicbook.form.CreateArtistForm;
 import com.musicbook.form.UpdateArtistForm;
 import com.musicbook.service.ArtistServiceImpl;
 import com.musicbook.service.EmailService;
+import com.musicbook.service.ImageService;
 
 @ExtendWith(MockitoExtension.class)
 public class ArtistServiceTest {
@@ -35,6 +37,9 @@ public class ArtistServiceTest {
 	
 	@Mock
 	private EmailService emailService;
+
+	@Mock
+	private ImageService imageService;
 	
 	@Mock
 	private PasswordEncoder passwordEncoder;
@@ -278,5 +283,33 @@ public class ArtistServiceTest {
 		String[] expectedAuthorities = {"USER"};
 		Assertions.assertEquals(expectedAuthorities[0], userDetails.getAuthorities().toArray()[0].toString());
 		Assertions.assertEquals(1, userDetails.getAuthorities().size());
+	}
+	
+	@Test
+	@DisplayName("Test processAndSaveImage Success")
+	public void testProcessAndSaveImage() throws IOException {
+		
+		Artist artist = new Artist();
+		artist.setHas_image(false);
+		
+		Mockito.when(imageService.processAndSaveImage(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
+		
+		artistService.processAndSaveImage(artist, null);
+		
+		Assertions.assertTrue(artist.isHas_image(), "Has Image was not set");
+	}
+	
+	@Test
+	@DisplayName("Test processAndSaveImage Failure")
+	public void testProcessAndSaveImageFailure() throws IOException {
+		
+		Artist artist = new Artist();
+		artist.setHas_image(false);
+		
+		Mockito.when(imageService.processAndSaveImage(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(false);
+		
+		artistService.processAndSaveImage(artist, null);
+		
+		Assertions.assertFalse(artist.isHas_image(), "Has Image was set");
 	}
 }

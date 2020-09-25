@@ -36,7 +36,7 @@
 								<figure class="image is-4by3">
 									<c:choose>
 										<c:when test="${artist.has_image}">
-											<img src="<c:url value="/images/artists/${artist.id}_big.jpg"/>" />
+											<img src="<c:url value="/images/artists/artist_${artist.id}_big.jpg"/>" />
 										</c:when>
 										<c:otherwise>
 											<img src="${placeholderBigUrl}" />
