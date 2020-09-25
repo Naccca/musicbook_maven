@@ -52,7 +52,7 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 
 	@Override
 	@Transactional
-	public void createArtist(CreateArtistForm createArtistForm) {
+	public Artist createArtist(CreateArtistForm createArtistForm) {
 		
 		Artist artist = new Artist();
 		artist.setEmail(createArtistForm.getEmail());
@@ -64,15 +64,17 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		artist.setCreated_at(timestamp);
 		artist.setUpdated_at(timestamp);
+		artist.setHas_image(false);
 		artist.setIs_enabled(false);
 		artist.setToken(UUID.randomUUID().toString());
 		Artist createdArtist = artistDAO.saveArtist(artist);
 		emailService.sendVerificationEmail(createdArtist);
+		return createdArtist;
 	}
 	
 	@Override
 	@Transactional
-	public void updateArtist(UpdateArtistForm updateArtistForm) {
+	public Artist updateArtist(UpdateArtistForm updateArtistForm) {
 		
 		Artist artist = getArtist(updateArtistForm.getId());
 		artist.setName(updateArtistForm.getName());
@@ -80,7 +82,7 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 		artist.setLocation(updateArtistForm.getLocation());
 		artist.setInstruments(updateArtistForm.getInstruments());
 		artist.setUpdated_at(new Timestamp(System.currentTimeMillis()));
-		artistDAO.saveArtist(artist);
+		return artistDAO.saveArtist(artist);
 	}
 
 	@Override
@@ -117,11 +119,11 @@ public class ArtistServiceImpl implements ArtistService, UserDetailsService {
 	
 	@Override
 	@Transactional
-	public void verifyArtist(Artist artist) {
+	public Artist verifyArtist(Artist artist) {
 		
 		artist.setIs_enabled(true);
 		
-		artistDAO.saveArtist(artist);
+		return artistDAO.saveArtist(artist);
 	}
 	
 	

@@ -13,9 +13,9 @@ public interface ArtistService {
 
 	public List<Artist> getArtists();
 
-	public void createArtist(CreateArtistForm artist);
+	public Artist createArtist(CreateArtistForm artist);
 	
-	public void updateArtist(UpdateArtistForm artist);
+	public Artist updateArtist(UpdateArtistForm artist);
 
 	public Artist getArtist(int id);
 	
@@ -29,5 +29,5 @@ public interface ArtistService {
 
 	public Artist getArtistByToken(String token);
 
-	public void verifyArtist(Artist artist);
+	public Artist verifyArtist(Artist artist);
 }
