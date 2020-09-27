@@ -200,7 +200,6 @@ public class ArtistServiceTest {
 		Assertions.assertEquals("Updated Bio", updatedArtist.getBio(), "Bio was not updated properly");
 		Assertions.assertEquals("Updated Location", updatedArtist.getLocation(), "Location was not updated properly");
 		Assertions.assertEquals("Updated Instruments", updatedArtist.getInstruments(), "Instruments was not updated properly");
-		Assertions.assertNotEquals(updatedArtist.getCreated_at(), updatedArtist.getUpdated_at(), "Updated at was not changed");
 		
 		Assertions.assertEquals(11, updatedArtist.getId(), "Id was changed");
 		Assertions.assertEquals("johndoe@example.com", updatedArtist.getEmail(), "Email was changed");

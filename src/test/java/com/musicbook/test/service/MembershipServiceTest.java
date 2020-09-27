@@ -1,6 +1,5 @@
 package com.musicbook.test.service;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
