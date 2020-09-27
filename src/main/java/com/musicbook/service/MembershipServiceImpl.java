@@ -1,5 +1,6 @@
 package com.musicbook.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,33 +36,51 @@ public class MembershipServiceImpl implements MembershipService {
 	
 	@Override
 	@Transactional
-	public void create(CreateMembershipForm createMembershipForm) {
+	public Membership create(CreateMembershipForm createMembershipForm) {
 		
 		Band band = bandDAO.getBand(createMembershipForm.getBand_id());
 		Artist artist = artistDAO.findArtistByName(createMembershipForm.getArtist_name());
 		if (artist == null) {
-			return;
+			return null;
 		}
 		
 		if(membershipDAO.findMembership(band.getId(), artist.getId()) != null) {
-			return;
+			return null;
 		}
 		
 		Membership membership = new Membership();
 		membership.setArtist(artist);
 		membership.setBand(band);
 		membership.setState_id(Membership.STATE_INVITED);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		membership.setCreated_at(timestamp);
+		membership.setUpdated_at(timestamp);
 		
-		membershipDAO.saveMembership(membership);
+		return membershipDAO.saveMembership(membership);
 	}
 	
 	@Override
 	@Transactional
-	public void accept(Membership membership) {
+	public Membership create(Artist artist, Band band, int state_id) {
+		
+		Membership membership = new Membership();
+		membership.setArtist(artist);
+		membership.setBand(band);
+		membership.setState_id(state_id);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		membership.setCreated_at(timestamp);
+		membership.setUpdated_at(timestamp);
+		
+		return membershipDAO.saveMembership(membership);
+	}
+	
+	@Override
+	@Transactional
+	public Membership accept(Membership membership) {
 		
 		membership.setState_id(Membership.STATE_ACCEPTED);
 		
-		membershipDAO.saveMembership(membership);
+		return membershipDAO.saveMembership(membership);
 	}
 
 	@Override

@@ -31,11 +31,11 @@ public class MembershipDAOImpl implements MembershipDAO {
 	}
 	
 	@Override
-	public void saveMembership(Membership membership) {
+	public Membership saveMembership(Membership membership) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.merge(membership);
+		return (Membership)currentSession.merge(membership);
 	}
 
 	@Override

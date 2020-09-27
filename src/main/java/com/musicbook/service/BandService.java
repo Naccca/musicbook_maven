@@ -15,9 +15,9 @@ public interface BandService {
 	
 	public List<Band> getBandsByOwnerId(int id);
 
-	public void createBand(CreateBandForm band);
+	public Band createBand(CreateBandForm band);
 	
-	public void updateBand(UpdateBandForm band);
+	public Band updateBand(UpdateBandForm band);
 
 	public Band getBand(int id);
 

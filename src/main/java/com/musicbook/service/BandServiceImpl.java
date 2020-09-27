@@ -2,6 +2,7 @@ package com.musicbook.service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.musicbook.dao.ArtistDAO;
 import com.musicbook.dao.BandDAO;
-import com.musicbook.dao.MembershipDAO;
 import com.musicbook.entity.Artist;
 import com.musicbook.entity.Band;
 import com.musicbook.entity.Membership;
@@ -28,10 +28,10 @@ public class BandServiceImpl implements BandService {
 	private ArtistDAO artistDAO;
 	
 	@Autowired
-	private MembershipDAO membershipDAO;
+	private ImageService imageService;
 	
 	@Autowired
-	private ImageService imageService;
+	private MembershipService membershipService;
 	
 	@Override
 	@Transactional
@@ -49,7 +49,7 @@ public class BandServiceImpl implements BandService {
 
 	@Override
 	@Transactional
-	public void createBand(CreateBandForm createBandForm) {
+	public Band createBand(CreateBandForm createBandForm) {
 		
 		Band band = new Band();
 		band.setName(createBandForm.getName());
@@ -63,18 +63,15 @@ public class BandServiceImpl implements BandService {
 		band.setOwner(owner);
 		Band createdBand = bandDAO.saveBand(band);
 		
-		Membership membership = new Membership();
-		membership.setArtist(owner);
-		membership.setBand(createdBand);
-		membership.setState_id(Membership.STATE_ACCEPTED);
-		membership.setCreated_at(timestamp);
-		membership.setUpdated_at(timestamp);
-		membershipDAO.saveMembership(membership);
+		Membership createdMembership = membershipService.create(owner, createdBand, Membership.STATE_ACCEPTED);
+		createdBand.setMemberships(Arrays.asList(createdMembership));
+		
+		return createdBand;
 	}
 	
 	@Override
 	@Transactional
-	public void updateBand(UpdateBandForm updateBandForm) {
+	public Band updateBand(UpdateBandForm updateBandForm) {
 		
 		Band band = getBand(updateBandForm.getId());
 		band.setName(updateBandForm.getName());
@@ -83,7 +80,7 @@ public class BandServiceImpl implements BandService {
 		band.setGenres(updateBandForm.getGenres());
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		band.setUpdated_at(timestamp);
-		bandDAO.saveBand(band);
+		return bandDAO.saveBand(band);
 	}
 
 	@Override

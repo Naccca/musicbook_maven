@@ -114,7 +114,7 @@ public class ArtistServiceTest {
 		Artist artist1 = new Artist();
 		artist1.setId(11);
 		Artist artist2 = new Artist();
-		artist2.setId(22);
+		artist2.setId(12);
 		
 		Mockito.when(artistDAO.getArtists()).thenReturn(Arrays.asList(artist1, artist2));
 		
