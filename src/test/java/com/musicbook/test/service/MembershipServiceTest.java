@@ -1,6 +1,5 @@
 package com.musicbook.test.service;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
@@ -57,6 +56,18 @@ public class MembershipServiceTest {
 		Mockito.when(membershipDAO.getMembership(11)).thenReturn(null);
 		
 		Assertions.assertNull(membershipService.getMembership(11), "Membership should not have been found");
+	}
+	
+	@Test
+	@DisplayName("Test getMembershipByArtisIdAndBandId Success")
+	void testGetMembershipByArtistIdAndBandId() {
+		
+		Membership membership = new Membership();
+		membership.setId(11);
+		
+		Mockito.when(membershipDAO.findMembership(11, 11)).thenReturn(membership);
+		
+		Assertions.assertEquals(membership, membershipService.getMembership(11, 11), "Returned membership by artist id and band id is not the same as mock");
 	}
 	
 	@Test
@@ -163,5 +174,19 @@ public class MembershipServiceTest {
 		membershipService.delete(membership);
 		
 		Mockito.verify(membershipDAO, Mockito.times(1)).deleteMembership(11);
+	}
+	
+	@Test
+	@DisplayName("Test getMemberships Success")
+	void testGetMemberships() {
+		
+		Membership membership1 = new Membership();
+		membership1.setId(11);
+		Membership membership2 = new Membership();
+		membership2.setId(12);
+		
+		Mockito.when(membershipDAO.getMemberships()).thenReturn(Arrays.asList(membership1, membership2));
+		
+		Assertions.assertEquals(2, membershipService.getMemberships().size(), "Wrong number of memberships returned");
 	}
 }

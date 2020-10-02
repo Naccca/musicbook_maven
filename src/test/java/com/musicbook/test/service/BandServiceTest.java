@@ -84,6 +84,18 @@ public class BandServiceTest {
 	}
 	
 	@Test
+	@DisplayName("Test getBandByName")
+	void testGetBandByName() {
+		
+		Band band = new Band();
+		band.setName("Test Band");
+		
+		Mockito.when(bandDAO.getBandByName("Test Band")).thenReturn(band);
+		
+		Assertions.assertEquals(band, bandService.getBandByName("Test Band"), "Returned band name is not the same as mock");
+	}
+	
+	@Test
 	@DisplayName("Test getBands Success")
 	void testGetBands() {
 		

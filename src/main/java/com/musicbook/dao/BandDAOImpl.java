@@ -87,4 +87,16 @@ public class BandDAOImpl implements BandDAO {
 		return bands;
 	}
 
+	@Override
+	public Band getBandByName(String name) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Band> query = currentSession.createQuery("from Band where name=:name", Band.class);
+		
+		query.setParameter("name", name);
+		
+		return query.uniqueResult(); 
+	}
+
 }

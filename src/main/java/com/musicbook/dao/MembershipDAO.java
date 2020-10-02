@@ -17,4 +17,6 @@ public interface MembershipDAO {
 	public List<Membership> getMembershipsByBandId(int bandId);
 
 	public Membership getMembership(int id);
+
+	public List<Membership> getMemberships();
 }
