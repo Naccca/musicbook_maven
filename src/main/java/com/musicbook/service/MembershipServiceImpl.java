@@ -105,4 +105,18 @@ public class MembershipServiceImpl implements MembershipService {
 	public Membership getMembership(int id) {
 		return membershipDAO.getMembership(id);
 	}
+	
+	@Override
+	@Transactional
+	public Membership getMembership(int artistId, int bandId) {
+		
+		return membershipDAO.findMembership(bandId, artistId);
+	}
+	
+	@Override
+	@Transactional
+	public List<Membership> getMemberships() {
+		
+		return membershipDAO.getMemberships();
+	}
 }

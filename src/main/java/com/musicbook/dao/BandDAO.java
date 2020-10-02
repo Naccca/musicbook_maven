@@ -17,4 +17,6 @@ public interface BandDAO {
 	public void deleteBand(int id);
 
 	public List<Band> searchBands(String search);
+
+	public Band getBandByName(String name);
 }

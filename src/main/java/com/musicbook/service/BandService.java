@@ -26,4 +26,6 @@ public interface BandService {
 	public List<Band> searchBands(String search);
 
 	public void processAndSaveImage(Band band, MultipartFile file) throws IOException;
+
+	public Band getBandByName(String name);
 }

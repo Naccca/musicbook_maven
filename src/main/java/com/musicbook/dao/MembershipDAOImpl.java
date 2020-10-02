@@ -86,4 +86,16 @@ public class MembershipDAOImpl implements MembershipDAO {
 		
 		return membership;
 	}
+	
+	@Override
+	public List<Membership> getMemberships() {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Membership> query = currentSession.createQuery("from Membership", Membership.class);
+		
+		List<Membership> memberships = query.getResultList();
+		
+		return memberships;
+	}
 }

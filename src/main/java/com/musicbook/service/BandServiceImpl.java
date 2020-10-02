@@ -46,6 +46,13 @@ public class BandServiceImpl implements BandService {
 		
 		return bandDAO.getBandsByOwnerId(id);
 	}
+	
+	@Override
+	@Transactional
+	public Band getBandByName(String name) {
+		
+		return bandDAO.getBandByName(name);
+	}
 
 	@Override
 	@Transactional

@@ -22,4 +22,8 @@ public interface MembershipService {
 	public List<Membership> getMembershipsByBandId(int bandId);
 
 	public Membership getMembership(int id);
+
+	public Membership getMembership(int artistId, int bandId);
+
+	public List<Membership> getMemberships();
 }
